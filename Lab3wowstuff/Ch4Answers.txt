@@ -1,0 +1,36 @@
+3. O(n) with amortized complexity of O(1). Based on the size of the list, the reallocation of elemnts follows complexity of O(n)
+yet, the copying of elements results in the many O(1) actions. There for O(n)/n = O(1)
+4. O(n) in the worst case scenario. EVERY item after the index at which list is removing
+must be moved down in the list. This for loop causes O(n) compmlexity for repeated
+looks at items in the list.
+
+6. Although both algorithms have an average complexity of O(nlogn) and worst case scenario of
+O(n^2), the controllability of quicksort is greater than merge. Merge's complexity is
+drawn solely from the actions in it's algorithm, where the list is split into
+sublists to eventually draw out the sorted complete list. However, with quicksort,
+the use of well-selected pivots and maintanence of the one primary list can be used to optimize
+sorting of the list.
+7. Merge sort could perform better than quick sort in the case that the pivots that 
+quick sort uses are unhelpful. This can happen when the list is already pre-sorted 
+partially sorted when the list is chosen for sorting. Quick sort can go from 
+O(nlogn) to O(n^2) because of this
+8. When a list is partitioned based on a pivot, a "border" value is selected so that it 
+can be effectievly moved towards the end of the list. The pivot is based off another
+function that returns a value either based on random selection or the "median-of-three"
+method. From here, values in the partitioned portion of the list are compared to the pivot.
+If the value is less than the pivot, the border value switches spots with it. If it
+gets to the point that the values are no longer less than the pivot, the border swaps with the pivot. This
+repeats until the entire list is sorted for the partitions of the list.
+9. Items in each sublist, created by initializing a "Left" and "Right" sublist using the start, middle, and end of the original list
+are compared to eachother. Using the __lt__ method of integers, the values are prioritized and the values are added back to the list in
+order from least to greatest
+10. It allows for easy initalization of an index for the smallest integer of a list
+by letting the computer know that there is an index that we'd like to start at, and then
+a value we'd like to return out for where it is in relation to the start value.
+11. Linked lists are dynamic, so they can grow or shrink according to the needs of the 
+program that is creating it. This essentially saves memory as Linked Lists do not have
+to be recreated or copied. They are just added or removed from as needed. The most 
+important advantage is the ability to rearrange the links and the flexibility of use.
+12. Accessing items in randomly accessible lists is faster than Linked Lists since
+in regular lists, you don't have to traverse a neighorhood. The list's indices are 
+instantly accessible. This is important from a memory stand point.
