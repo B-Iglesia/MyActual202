@@ -95,11 +95,33 @@ class LinkedList:
     
     def __contains__(self,item):
         # This is left as an exercise for the reader.
-        pass
+        #lol scroll back up to see how I check the root cuz
+#this_node should be equal to the dummy node that is kept
+	#purposely empty to rid of complexity
+        this_node = self.first
+        while this_node:
+            if this_node.getItem() == item:
+                return item
+        else:
+            this.node.getNext()
+        return None
  
     def __delitem__(self,index):
         # This is left as an exercise for the reader. 
-        pass 
+        this_node = self.first
+        prev_node = None
+        while this_node:
+            if this_node.getItem() == d:
+                if prev_node:
+                    prev_node.setNext(this_node.getNext())
+                else:
+                    self.first = this_node
+                    self.numItems -=1
+                    return True #data found
+            else:
+                prev_node = this_node
+                this_node = this_node.getNext()
+        return False #data not removed
             
     def __eq__(self,other):
         if type(other) != type(self):
@@ -120,12 +142,17 @@ class LinkedList:
     
     def __iter__(self):
         # This is left as an exercise for the reader.
-        pass
+        while self.first:
+            yield self.first
+            self.first = self.first.getNext()
             
     def __len__(self):
         # This is left as an exercise for the reader.
-        pass
-
+        count = 0
+        while self.first:
+            count +=1
+            self.first = self.first.getNext()
+        return count
     def append(self,item):
         node = LinkedList.__Node(item)
         self.last.setNext(node)
@@ -135,13 +162,24 @@ class LinkedList:
         
     def __str__(self):
         # This is left as an exercise for the reader. 
-        pass
+        return str(list(self))
     
     def __repr__(self):
         # This is left as an exercise for the reader.
-        pass              
-                
+        readable = ""
+        while self.first:
+            readable += str(self.first.getItem())
+            self.first = self.first.getNext()
+        return readable
 def main():
+	
+
+    mylst = LinkedList()
+    mylst.append(1)
+    mylst.append(2)
+    print(mylst)    
+
+
     lst = LinkedList()
     
     for i in range(100):
