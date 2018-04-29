@@ -1,0 +1,13 @@
+3. Local Scope
+4. Local Scope, Enclosing Scope, Global Scope, Built-in Scope
+6. Activation records are pushed onto the run-time stack when a function is called
+7. Activation records are popped off the run-time stack when the function they reference is done (in order of most recent push)
+8. Objects as needed by the functions put in the run-time stack
+9. Functions
+10. The base case and recursive case
+11. The run-time stack would overflow and an error would occur due to infinite recursion as the program would not know when to stop.
+12. Some thing about the arguments must change with each recursion; i.e, the number of items that the recursion is acting one must 
+decrease.
+ex: 
+	if a function is recursively determining if every value in a list is true, then for each time the function is called again
+	the list should be one item shorter
