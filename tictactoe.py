@@ -73,6 +73,7 @@ class Board:
     # If the human has won, return -1. Otherwise, return 0.
     # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
     def eval(self):
+	
         potential_wins = []
 	
         for i in range(3):
@@ -85,10 +86,16 @@ class Board:
         potential_wins.append([self.items[i][2-i] for i in range(3)])
 	
         for trio in potential_wins:
-            if trio == [type(X()),type(X()),type(X())]:
-                return -1
-            if trio == [type(O()),type(O()),type(O())]:
+            fuck_you = 0
+            for a in trio:
+                if type(a) == type(X()):
+                    fuck_you += 1
+                if type(a) == type(O()):
+                    fuck_you -= 1
+            if fuck_you == 3:
                 return 1
+            if fuck_you == -3:
+                return -1
         return 0
 
     # This method should return True if the board 
@@ -145,7 +152,7 @@ class X(RawTurtle):
             self.speed(5)
             self.goto(-100,-100)
     def __repr__(self):
-        print("X")
+        return "X"
         
     def eval(self):
         return Computer
@@ -160,7 +167,7 @@ class O(RawTurtle):
             self.speed(5)
             self.goto(-100,-100)
     def __repr__(self):
-        print("O")
+        return "O"
     def eval(self):
         return Human
 
@@ -308,6 +315,10 @@ class TicTacToe(tkinter.Frame):
         screen.listen()
 
 def main():
+    myX = X()
+    print(myX)
+    myO = O()
+    print(myO)
     root = tkinter.Tk()
     root.title("Tic Tac Toe")    
     application = TicTacToe(root)  
