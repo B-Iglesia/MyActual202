@@ -6,6 +6,7 @@ import math
 import datetime
 import time
 import sys
+import copy
 
 screenMin = 0
 screenMax = 300
@@ -170,12 +171,25 @@ class O(RawTurtle):
         return "O"
     def eval(self):
         return Human
+
+#Helper function to determine whose turn it is
 def is_X_turn(board):
     x_count = 0
     for row in board:
         x_count += row.count("X")
         x_count -= row.count("O")
     return x_count == 0
+
+def get_branches(board, is_X_turn):
+    symbol = X if is_X_turn else O
+    branches = []
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == Dummy():
+                branches.append(copy.deepcopy(board))
+                branches[-1][i][j] = symbol
+    return branches
+    
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
