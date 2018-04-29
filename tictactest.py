@@ -66,6 +66,42 @@ class TestTicTacToe(unittest.TestCase):
       # Note: Computer plays X's
       self.assertEqual(b.eval(), 1, 'X wins.')  
       
+   def test_board_eval1(self):
+      b = Board()
+      b[0][0] = X(); b[0][1] = O(); b[0][2] = O()
+      b[1][0] = X(); b[1][1] = O()
+      b[2][0] = X()
+      
+      # Note: Computer plays X's
+      self.assertEqual(b.eval(), 1, 'X wins.') 
+      
+   def test_board_eval2(self):
+      b = Board()
+      b[0][0] = O(); b[0][1] = X(); b[0][2] = X()
+      b[1][0] = O(); b[1][1] = X()
+      b[2][0] = O()
+      
+      # Note: Computer plays X's
+      self.assertEqual(b.eval(), -1, 'O wins.')
+      
+   def test_board_eval3(self):
+      b = Board()
+      b[0][0] = O(); b[0][1] = O(); b[0][2] = O()
+      b[1][0] = X(); b[1][1] = O()
+      b[2][0] = X()
+      
+      # Note: Computer plays X's
+      self.assertEqual(b.eval(), -1, 'O wins.')
+      
+   def test_board_eval4(self):
+      b = Board()
+      b[0][0] = X(); b[0][1] = O(); b[0][2] = X()
+      b[1][0] = X(); b[1][1] = O(); b[1][2] = O()
+      b[2][0] = O(); b[2][1] = X(); b[2][2] = X()
+      
+      # Note: Computer plays X's
+      self.assertEqual(b.eval(), O, 'Draw!')      
+      
    def test_board_full(self):
       b = Board()
       b[0][0] = O(); b[0][1] = X(); b[0][2] = O()
