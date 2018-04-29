@@ -50,7 +50,7 @@ class Board:
     def __eq__(self,other):
         for i in range(3):
             for j in range(3):
-                if self.item[i][j] != self.item[i][j]:
+                if self.items[i][j] != self.items[i][j]:
                     return False
         return True
     
@@ -73,7 +73,23 @@ class Board:
     # If the human has won, return -1. Otherwise, return 0.
     # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
     def eval(self):
-        pass
+        potential_wins = []
+	
+        for i in range(3):
+            potential_wins.append([self.items[i][k] for k in range(3)])
+	    
+        for i in range(3):
+            potential_wins.append([self.items[k][i] for k in range(3)])
+	
+        potential_wins.append([self.items[i][i] for i in range(3)])
+        potential_wins.append([self.items[i][2-i] for i in range(3)])
+	
+        for trio in potential_wins:
+            if trio == [type(X()),type(X()),type(X())]:
+                return -1
+            if trio == [type(O()),type(O()),type(O())]:
+                return 1
+        return 0
 
     # This method should return True if the board 
     # is completely filled up (no dummy turtles). 
@@ -82,7 +98,7 @@ class Board:
     def full(self):
         for i in range(3):
             for j in range(3):
-                if type(self.item[i][j]) == type(Dummy()):
+                if type(self.items[i][j]) == type(Dummy()):
                     return False
         return True
     
@@ -127,7 +143,9 @@ class X(RawTurtle):
             self.shape("X")
             self.penup()
             self.speed(5)
-            self.goto(-100,-100)  
+            self.goto(-100,-100)
+    def __repr__(self):
+        print("X")
         
     def eval(self):
         return Computer
@@ -141,7 +159,8 @@ class O(RawTurtle):
             self.penup()
             self.speed(5)
             self.goto(-100,-100)
-        
+    def __repr__(self):
+        print("O")
     def eval(self):
         return Human
 
@@ -156,7 +175,9 @@ class O(RawTurtle):
 # the board is full.    
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
-    pass
+    if board.full() == True:
+        return 0
+    
 
       
 
@@ -244,6 +265,8 @@ class TicTacToe(tkinter.Frame):
             # contain the best move for the computer. For instance,
             # if the best move is in the first row and third column
             # then maxMove would be (0,2).
+	    
+	    #MiniMax goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	    
             row, col = maxMove
             board[row][col] = X(cv)
