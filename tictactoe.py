@@ -86,15 +86,15 @@ class Board:
         potential_wins.append([self.items[i][2-i] for i in range(3)])
 	
         for trio in potential_wins:
-            fuck_you = 0
+            win_stat = 0
             for a in trio:
                 if type(a) == type(X()):
-                    fuck_you += 1
+                    win_stat += 1
                 if type(a) == type(O()):
-                    fuck_you -= 1
-            if fuck_you == 3:
+                    win_stat -= 1
+            if win_stat == 3:
                 return 1
-            if fuck_you == -3:
+            if win_stat == -3:
                 return -1
         return 0
 
@@ -170,7 +170,12 @@ class O(RawTurtle):
         return "O"
     def eval(self):
         return Human
-
+def is_X_turn(board):
+    x_count = 0
+    for row in board:
+        x_count += row.count("X")
+        x_count -= row.count("O")
+    return x_count == 0
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
@@ -182,10 +187,35 @@ class O(RawTurtle):
 # the board is full.    
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
+    #If some one has won, immediately return who won
+    beval = board.eval()
+    if beval != 0:
+        return beval
+    #Check for a full board (without a win)
     if board.full() == True:
         return 0
+    #checking each pathway based on moves
+    X_turn = is_X_turn(board)
+    branches = get_branches(board, X_turn)
+    branch_evals = [minimax(branch) for branch in branches]
     
-
+    #returning the result assuming best play
+    if X_turn:
+	#options following minimax algorithm from best to worst
+        if 1 in branch_evals:
+            return 1
+        elif 0 in branch_evals:
+            return 0
+        else:
+            return -1
+    else:
+	# O options from best to worst
+        if -1 in branch_evals:
+            return -1
+        if 0 in branch_evals:
+            return 0
+        if 1 in branch_evals:
+            return 1
       
 
 class TicTacToe(tkinter.Frame):
@@ -315,10 +345,6 @@ class TicTacToe(tkinter.Frame):
         screen.listen()
 
 def main():
-    myX = X()
-    print(myX)
-    myO = O()
-    print(myO)
     root = tkinter.Tk()
     root.title("Tic Tac Toe")    
     application = TicTacToe(root)  
