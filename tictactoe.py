@@ -48,15 +48,7 @@ class Board:
     # represent exactly the same state. 
     # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
     def __eq__(self,other):
-	#Jumps into a row
-        for i in range(3):
-		#Jumps to each item of each row
-		for j in range(3):
-			#Only interested if there is ever a time items in self != items in other
-			if self.item[i][j] != other.item[i][j]:
-				return False
-	#returns True if there really isn't any difference in the two items
-	return True
+        pass
     
     # This method will mutate this board to contain all dummy 
     # turtles. This way the board can be reset when a new game
@@ -84,11 +76,7 @@ class Board:
     # Otherwise, it should return False.
     # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
     def full(self):
-        for i in range(3):
-		for j in range(3):
-			if type(self.item[i][j]) == type(Dummy):
-				return False
-	return True
+        pass
     
     # This method should draw the X's and O's
     # Of this board on the screen. 
@@ -122,29 +110,27 @@ class Dummy:
 # calling __init__ on the superclass initializes the part of the object that is
 # a RawTurtle. 
 class X(RawTurtle):
-    def __init__(self, canvas = None):
-        if canvas != None:
-            super().__init__(canvas)
-            self.ht()
-            self.getscreen().register_shape("X",((-40,-36),(-40,-44),(0,-4),(40,-44),(40,-36),(4,0), \
-                                       (40,36),(40,44),(0,4),(-40,44),(-40,36),(-4,0),(-40,-36)))
-            self.shape("X")
-            self.penup()
-            self.speed(5)
-            self.goto(-100,-100)  
+    def __init__(self, canvas):
+        super().__init__(canvas)
+        self.ht()
+        self.getscreen().register_shape("X",((-40,-36),(-40,-44),(0,-4),(40,-44),(40,-36), \
+                             (4,0),(40,36),(40,44),(0,4),(-40,44),(-40,36),(-4,0),(-40,-36)))
+        self.shape("X")
+        self.penup()
+        self.speed(5)
+        self.goto(-100,-100)  
         
     def eval(self):
         return Computer
     
 class O(RawTurtle):
-    def __init__(self, canvas = None):
-        if canvas != None:
-            super().__init__(canvas)
-            self.ht()
-            self.shape("circle")
-            self.penup()
-            self.speed(5)
-            self.goto(-100,-100)
+    def __init__(self, canvas):
+        super().__init__(canvas)
+        self.ht()
+        self.shape("circle")
+        self.penup()
+        self.speed(5)
+        self.goto(-100,-100)
         
     def eval(self):
         return Human
