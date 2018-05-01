@@ -131,6 +131,8 @@ class Dummy:
     
     def eval(self):
         return 0
+    def __eq__(self, other):
+        return type(self) == type(other)
     
     def goto(self,x,y):
         pass
@@ -173,23 +175,36 @@ class O(RawTurtle):
         return Human
 
 #Helper function to determine whose turn it is
-def is_X_turn(board):
-    x_count = 0
-    for row in board:
-        x_count += row.count("X")
-        x_count -= row.count("O")
-    return x_count == 0
 
-def get_branches(board, is_X_turn):
-    symbol = X if is_X_turn else O
+def is_O_turn(board):
+    o_count = 0
+    for row in board:
+        o_count -= row.count("O")
+        o_count += row.count("X")
+    if o_count == 0:
+        return Human
+    return Computer
+"""
+def get_branches(board, player):
+    symbol = O if player == Human else X
     branches = []
     for i in range(3):
         for j in range(3):
-            if board[i][j] == Dummy():
+            if type(board[i][j]) == type(Dummy()):
                 branches.append(copy.deepcopy(board))
                 branches[-1][i][j] = symbol
     return branches
+
+def make_branch(board,player):
+    symbol = O if player == Human else X
     
+    for i in range(3):
+        for j in range(3):
+            if type(board[i][j]) == type(Dummy()):
+                a = board[i].insert(j,symbol)
+                
+    return a
+"""
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
@@ -201,35 +216,52 @@ def get_branches(board, is_X_turn):
 # the board is full.    
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
-    #If some one has won, immediately return who won
+    scores = []
+    score = 0
+    #If some one has won, immediately return who won as a value and add to score
     beval = board.eval()
     if beval != 0:
-        return beval
+        if beval == -1:
+            return -10
+        if beval == 1:
+            return 10
+	    
     #Check for a full board (without a win)
     if board.full() == True:
-        return 0
+        return score 
     #checking each pathway based on moves
-    X_turn = is_X_turn(board)
-    branches = get_branches(board, X_turn)
-    branch_evals = [minimax(branch) for branch in branches]
+    O_turn = is_O_turn(board) #returns Human or Computer
+    branches = get_branches(board, O_turn)
+    branch_eval = [minimax(O_turn, branch) for branch in branches]
+    for item in branch_eval:
+	scores.append(item)
+    if O_turn == Human:
+	min_score = min(score)
+    if O_turn == Computer:
+        max_score = max(score)
+    #What I need to do:
+    #Make some sort of function that just makes the the code
+    #place an X or an O in the next best spot
+    #if the values at the end of minimax returns positive, it's a comp win
+    #and negative if the opposite
     
     #returning the result assuming best play
-    if X_turn:
-	#options following minimax algorithm from best to worst
-        if 1 in branch_evals:
-            return 1
-        elif 0 in branch_evals:
+    if O_turn == Human:
+	# O options following minimax algorithm from best to worst
+        if -1 in branch_eval:
+            return -1
+        elif 0 in branch_eval:
             return 0
         else:
-            return -1
-    else:
-	# O options from best to worst
-        if -1 in branch_evals:
-            return -1
-        if 0 in branch_evals:
-            return 0
-        if 1 in branch_evals:
             return 1
+    else:
+	# X options from best to worst
+        if 1 in branch_eval:
+            return 1
+        if 0 in branch_eval:
+            return 0
+        if -1 in branch_eval:
+            return -1
       
 
 class TicTacToe(tkinter.Frame):
