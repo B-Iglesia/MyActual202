@@ -1,6 +1,6 @@
 from tictactoe import *
 import unittest
-
+Computer = 1
 class TestTicTacToe(unittest.TestCase):     
    def test_board_equality_operator(self):
       b0 = Board()
@@ -180,8 +180,7 @@ class TestTicTacToe(unittest.TestCase):
       b[1][0] = X(); b[1][2] = O()
       b[2][0] = O(); b[2][1] = O(); b[2][2] = X()
       
-      self.assertFalse(b.full(),'Not full.')
-         
+      self.assertFalse(b.full(),'Not full.')         
    
    def test_minimax(self):
       b = Board()
@@ -189,12 +188,12 @@ class TestTicTacToe(unittest.TestCase):
       b[1][0] = O(); b[1][1] = O()
       b[2][0] = O()
        
-      self.assertEqual(minimax(Computer, b), -1, 'Board contains a win for X')
+      self.assertEqual(minimax(Computer, b), 1, 'Board contains a win for X')
    def test_minimax1(self):
       b = Board()
       b[0][0] = X(); b[0][1] = O()
 
        
-      self.assertEqual(minimax(Computer, b), -1, 'Board contains a win for X')
+      self.assertEqual(minimax(Computer, b), 1, 'Board contains a win for X')
 if __name__ == '__main__':
    unittest.main()    

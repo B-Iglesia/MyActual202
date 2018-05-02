@@ -105,9 +105,8 @@ class Board:
     # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
     def full(self):
         for i in range(3):
-            for j in range(3):
-                if type(self.items[i][j]) == type(Dummy()):
-                    return False
+            if Dummy() in self.items[i]:
+                return False
         return True
     def available(self):
         return[(i,j) for j in range(3) for i in range(3) if type(self.items[i][j]) == type(Dummy())]
@@ -116,6 +115,12 @@ class Board:
             symbol = O
         symbol = X
         self.items[pos[0]][pos[1]] = symbol
+    def complete(self):
+        if Dummy() not in [self.items[i] for i in range(3)]:
+            return True
+        if self.eval() !=0:
+            return True
+        return False
     # This method should draw the X's and O's
     # Of this board on the screen. 
     def drawXOs(self):
@@ -194,18 +199,15 @@ def change_player(player):
     if player == Human:
         return Computer
     return Human
-"""
-def get_branches(board, player):
-    symbol = O if player == Human else X
-    branches = []
-    for i in range(3):
-        for j in range(3):
-            if type(board[i][j]) == type(Dummy()):
-                branches.append(copy.deepcopy(board))
-                branches[-1][i][j] = symbol
-    return branches
-"""
-
+def make_move(board, pos, player):
+    if player == Human:
+        symbol = O
+    elif player == Computer:
+        symbol = X
+    else:
+        symbol = Dummy()
+    board[pos[0]].insert(pos[1], symbol)
+    return board
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
@@ -218,26 +220,19 @@ def get_branches(board, player):
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
     if board.full():
-        if board.eval() == 1:
-            return Computer
-        elif board.eval() == -1:
-            return Human
-        elif board.eval() == 0:
-            return Tie
-        best = 0
-    for move in board.available():
-        board.make_move(move, player)
-        val = minimax(change_player(player), board)
-        board.make_move(move, change_player(player))
-        if player == Computer:
-            if val > 0:
-                return val
-        else:
-            if val < 0:
-                return Val
         return 0
-
-        
+    if player == Human:
+        bestValue = -1
+        for move in board.available():
+            v = minimax(change_player(player), make_move(board, move, player))
+            bestValue = min(bestValue, v)
+        return bestValue
+    else:
+        bestValue = 1
+        for move in board.available():
+            v = minimax(change_player(player), make_move(board,move,player),)
+            bestValue = max(bestValue, v)
+        return bestValue
 class TicTacToe(tkinter.Frame):
     def __init__(self, master=None):
         super().__init__(master)
