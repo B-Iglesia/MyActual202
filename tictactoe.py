@@ -208,12 +208,7 @@ def make_move(board, pos, player):
         symbol = Dummy()
     board[pos[0]].insert(pos[1], symbol)
     return board
-def best_move(player, board):
-    best_index = 0
-    for move in board.available():
-        a = [minimax(player, make_move(board, move, player))]
-    best_index = a.index(max(a))
-    return board.available()[best_index]
+
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
@@ -325,7 +320,15 @@ class TicTacToe(tkinter.Frame):
             # then maxMove would be (0,2).
 	    
 	    #MiniMax goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            maxMove = best_move(Computer, board)
+            """So use a for loop on minimax in order to find
+	    which move in board.available() is the 
+	    next optimal move to use
+	    """
+            
+            #print(board.available())
+            for move in board.available():
+                print(move)
+            maxMove = board.available()[bestindex]
             row, col = maxMove
             board[row][col] = X(cv)
             self.locked = False
