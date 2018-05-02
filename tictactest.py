@@ -151,6 +151,20 @@ class TestTicTacToe(unittest.TestCase):
       b[2][0] = O(); b[2][1] = O();
       
       self.assertFalse(b.full(), "Not full.")
+   def test_available(self):
+      b = Board()
+      b[0][0] = O(); b[0][1] = X(); b[0][2] = O()
+      b[1][0] = X(); b[1][1] = X(); b[1][2] = O()
+      b[2][0] = O(); b[2][1] = O();
+      
+      self.assertEqual(b.available(), [(2,2)])
+   def test_availabl2(self):
+      b = Board()
+      b[0][0] = Dummy(); b[0][1] = X(); b[0][2] = O()
+      b[1][0] = X();                b[1][2] = O()
+      b[2][0] = O(); b[2][1] = O();
+      
+      self.assertEqual(b.available(), [(0,0),(1,1),(2,2)])      
    
    def test_board_full2(self):
       b = Board()
@@ -175,12 +189,12 @@ class TestTicTacToe(unittest.TestCase):
       b[1][0] = O(); b[1][1] = O()
       b[2][0] = O()
        
-      self.assertEqual(minimax(Computer, b), 1, 'Board contains a win for X')
+      self.assertEqual(minimax(Computer, b), -1, 'Board contains a win for X')
    def test_minimax1(self):
       b = Board()
       b[0][0] = X(); b[0][1] = O()
 
        
-      self.assertEqual(minimax(Computer, b), 1, 'Board contains a win for X')
+      self.assertEqual(minimax(Computer, b), -1, 'Board contains a win for X')
 if __name__ == '__main__':
    unittest.main()    

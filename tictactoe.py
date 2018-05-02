@@ -12,7 +12,7 @@ screenMin = 0
 screenMax = 300
 Human = -1
 Computer = 1  
-
+Tie = 0
 class Board:
     # When a board is constructed, you may want to make a copy of the board.
     # This can be a shallow copy of the board because Turtle objects are 
@@ -109,7 +109,13 @@ class Board:
                 if type(self.items[i][j]) == type(Dummy()):
                     return False
         return True
-    
+    def available(self):
+        return[(i,j) for j in range(3) for i in range(3) if type(self.items[i][j]) == type(Dummy())]
+    def make_move(self, pos, player):
+        if player == Human:
+            symbol = O
+        symbol = X
+        self.items[pos[0]][pos[1]] = symbol
     # This method should draw the X's and O's
     # Of this board on the screen. 
     def drawXOs(self):
@@ -184,6 +190,10 @@ def is_O_turn(board):
     if o_count == 0:
         return Human
     return Computer
+def change_player(player):
+    if player == Human:
+        return Computer
+    return Human
 """
 def get_branches(board, player):
     symbol = O if player == Human else X
@@ -194,17 +204,8 @@ def get_branches(board, player):
                 branches.append(copy.deepcopy(board))
                 branches[-1][i][j] = symbol
     return branches
-
-def make_branch(board,player):
-    symbol = O if player == Human else X
-    
-    for i in range(3):
-        for j in range(3):
-            if type(board[i][j]) == type(Dummy()):
-                a = board[i].insert(j,symbol)
-                
-    return a
 """
+
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
@@ -216,54 +217,27 @@ def make_branch(board,player):
 # the board is full.    
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
-    scores = []
-    score = 0
-    #If some one has won, immediately return who won as a value and add to score
-    beval = board.eval()
-    if beval != 0:
-        if beval == -1:
-            return -10
-        if beval == 1:
-            return 10
-	    
-    #Check for a full board (without a win)
-    if board.full() == True:
-        return score 
-    #checking each pathway based on moves
-    O_turn = is_O_turn(board) #returns Human or Computer
-    branches = get_branches(board, O_turn)
-    branch_eval = [minimax(O_turn, branch) for branch in branches]
-    for item in branch_eval:
-	scores.append(item)
-    if O_turn == Human:
-	min_score = min(score)
-    if O_turn == Computer:
-        max_score = max(score)
-    #What I need to do:
-    #Make some sort of function that just makes the the code
-    #place an X or an O in the next best spot
-    #if the values at the end of minimax returns positive, it's a comp win
-    #and negative if the opposite
-    
-    #returning the result assuming best play
-    if O_turn == Human:
-	# O options following minimax algorithm from best to worst
-        if -1 in branch_eval:
-            return -1
-        elif 0 in branch_eval:
-            return 0
+    if board.full():
+        if board.eval() == 1:
+            return Computer
+        elif board.eval() == -1:
+            return Human
+        elif board.eval() == 0:
+            return Tie
+        best = 0
+    for move in board.available():
+        board.make_move(move, player)
+        val = minimax(change_player(player), board)
+        board.make_move(move, change_player(player))
+        if player == Computer:
+            if val > 0:
+                return val
         else:
-            return 1
-    else:
-	# X options from best to worst
-        if 1 in branch_eval:
-            return 1
-        if 0 in branch_eval:
-            return 0
-        if -1 in branch_eval:
-            return -1
-      
+            if val < 0:
+                return Val
+        return 0
 
+        
 class TicTacToe(tkinter.Frame):
     def __init__(self, master=None):
         super().__init__(master)
