@@ -243,6 +243,7 @@ def tmp_gen(board, player):
         for j in range(3):
             copy.items[i][j] = board.items[i][j]
     return copy
+#copy = tmp_gen(Board(), Human)
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
@@ -256,23 +257,29 @@ def tmp_gen(board, player):
 def minimax(player,board):
     copy = tmp_gen(board,player)
     if board.eval() == 1:
+        #print(board)
         return 1
-    if board.eval() == -1:
+    elif board.eval() == -1:
+        #print(board)
         return -1
-    if board.full():
+    #elif board.eval() == 0:
+       # return 0
+    elif board.full() and (board.eval() != 1 or board.eval() != -1):
+        #print(board)
         return 0
-    if player == Human:
-        bestValue = -1
-        for move in board.available():
-            v = minimax(change_player(player), make_move(copy, move, player))
-            bestValue = min(bestValue, v)
-        return bestValue
     else:
-        bestValue = 1
-        for move in board.available():
-            v = minimax(change_player(player), make_move(copy,move,player))
-            bestValue = max(bestValue, v)
-        return bestValue
+        if player == Human:
+            bestValue = -1
+            for move in board.available():
+                v = minimax(change_player(player), make_move(copy, move, player))
+                bestValue = min(bestValue, v)
+            return bestValue
+        else:
+            bestValue = 1
+            for move in board.available():
+                v = minimax(change_player(player), make_move(copy,move,player))
+                bestValue = max(bestValue, v)
+            return bestValue
 class TicTacToe(tkinter.Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -367,10 +374,9 @@ class TicTacToe(tkinter.Frame):
             copy = tmp_gen(board,Computer)
             move_list = []
             max_vals = []
-            for move in board.available():
+            for move in copy.available():
                 move_list.append(move)
                 max_vals.append(minimax(Computer, make_move(copy,move,Computer)))
-	    
             #maxMove = board.available()[max_vals.index(max(max_vals))]
             maxMove = move_list[max_vals.index(max(max_vals))]
             row, col = maxMove
