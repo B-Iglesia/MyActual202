@@ -208,5 +208,11 @@ class TestTicTacToe(unittest.TestCase):
 
        
       self.assertEqual(minimax(Computer, b), 1, 'Board contains a win for X')
+   def test_minimax2(self):
+      b = Board()
+      b[0][0] = X(); b[1][1] = O(); b[0][1] = X()
+
+       
+      self.assertEqual(minimax(Human, b), -1, 'Board contains a win for X')      
 if __name__ == '__main__':
    unittest.main()    

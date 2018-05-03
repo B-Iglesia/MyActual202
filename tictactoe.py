@@ -130,7 +130,7 @@ class Board:
                 if self[row][col].eval() != 0:
                     self[row][col].st()
                     self[row][col].goto(col*100+50,row*100+50)
-        
+	    
         self.screen.update()        
 
 # This class is just for placeholder objects when no move has been made
@@ -326,9 +326,14 @@ class TicTacToe(tkinter.Frame):
 	    """
             
             #print(board.available())
+            move_list = []
+            max_vals = []
             for move in board.available():
-                print(move)
-            maxMove = board.available()[bestindex]
+                move_list.append(move)
+                max_vals.append(minimax(Computer, make_move(board,move,Computer)))
+            #maxMove = board.available()[max_vals.index(max(max_vals))]
+            
+            maxMove = move_list[max_vals.index(max(max_vals))]
             row, col = maxMove
             board[row][col] = X(cv)
             self.locked = False
