@@ -209,6 +209,12 @@ def make_move(board, pos, player):
     board[pos[0]].insert(pos[1], symbol)
     return board
 
+def tmp_gen(board, player):
+    copy = Board()
+    for i in range(3):
+        for j in range(3):
+            copy.items[i][j] = board.items[i][j]
+    return copy
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
 # board object. When the player = Computer, minimax returns the maximum 
 # value of all possible moves that the Computer could make. When the player =
@@ -220,18 +226,22 @@ def make_move(board, pos, player):
 # the board is full.    
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
+    if board.eval() == 1:
+        return 1
+    if board.eval() == -1:
+        return -1
     if board.full():
         return 0
     if player == Human:
         bestValue = -1
         for move in board.available():
-            v = minimax(change_player(player), make_move(board, move, player))
+            v = minimax(change_player(player), make_move(tmp_gen(board, player), move, player))
             bestValue = min(bestValue, v)
         return bestValue
     else:
         bestValue = 1
         for move in board.available():
-            v = minimax(change_player(player), make_move(board,move,player))
+            v = minimax(change_player(player), make_move(tmp_gen(board,player),move,player))
             bestValue = max(bestValue, v)
         return bestValue
 class TicTacToe(tkinter.Frame):
@@ -330,12 +340,15 @@ class TicTacToe(tkinter.Frame):
             max_vals = []
             for move in board.available():
                 move_list.append(move)
-                max_vals.append(minimax(Computer, make_move(board,move,Computer)))
+                max_vals.append(minimax(Computer, make_move(tmp_gen(board,Computer),move,Computer)))
             #maxMove = board.available()[max_vals.index(max(max_vals))]
-            
+            print(move_list)
+            print(max_vals)
             maxMove = move_list[max_vals.index(max(max_vals))]
             row, col = maxMove
             board[row][col] = X(cv)
+            for x in board:
+                print(x)
             self.locked = False
     
       
