@@ -175,6 +175,8 @@ class Dummy:
     
     def goto(self,x,y):
         pass
+    def __repr__(self):
+        return "_"
     
 # In the X and O classes below the constructor begins by initializing the 
 # RawTurtle part of the object with the call to super().__init__(canvas). The
@@ -228,20 +230,22 @@ def change_player(player):
         return Computer
     return Human
 def make_move(board, pos, player):
-    if player == Human:
-        symbol = O
-    elif player == Computer:
-        symbol = X
-    else:
-        symbol = Dummy()
-    board[pos[0]].insert(pos[1], symbol)
+
     return board
 
-def tmp_gen(board, player):
+def tmp_gen(board, player, pos):
     copy = Board()
     for i in range(3):
         for j in range(3):
             copy.items[i][j] = board.items[i][j]
+    if player == Human:
+        symbol = O()
+    elif player == Computer:
+        symbol = X()
+    else:
+        symbol = Dummy()
+
+    copy[pos[0]][pos[1]] = symbol
     return copy
 #copy = tmp_gen(Board(), Human)
 # The minimax function is given a player (1 = Computer, -1 = Human) and a
@@ -255,11 +259,13 @@ def tmp_gen(board, player):
 # the board is full.    
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
-    copy = tmp_gen(board,player)
+    #copy = tmp_gen(board,player)
+    #copy2 = tmp_gen(board,player)
     if board.eval() == 1:
-        #print(board)
+
         return 1
     elif board.eval() == -1:
+
         #print(board)
         return -1
     #elif board.eval() == 0:
@@ -268,16 +274,17 @@ def minimax(player,board):
         #print(board)
         return 0
     else:
-        if player == Human:
-            bestValue = -1
+        if player == -1:
+            bestValue = 110000
             for move in board.available():
-                v = minimax(change_player(player), make_move(copy, move, player))
+                v = minimax(1, tmp_gen(board,-1,move))
+
                 bestValue = min(bestValue, v)
             return bestValue
         else:
-            bestValue = 1
+            bestValue = -10000
             for move in board.available():
-                v = minimax(change_player(player), make_move(copy,move,player))
+                v = minimax(-1, tmp_gen(board,1,move))
                 bestValue = max(bestValue, v)
             return bestValue
 class TicTacToe(tkinter.Frame):
@@ -371,14 +378,16 @@ class TicTacToe(tkinter.Frame):
 	    """
             
             #print(board.available())
-            copy = tmp_gen(board,Computer)
-            move_list = []
-            max_vals = []
-            for move in copy.available():
-                move_list.append(move)
-                max_vals.append(minimax(Computer, make_move(copy,move,Computer)))
+            #copy = tmp_gen(board,Computer)
+            bestValue = -10000
+            maxMove =()
+            for move in board.available():
+                v = minimax(-1, tmp_gen(board, 1, move))
+                if(v > bestValue):
+                    bestValue = v
+                    maxMove = move
             #maxMove = board.available()[max_vals.index(max(max_vals))]
-            maxMove = move_list[max_vals.index(max(max_vals))]
+
             row, col = maxMove
             board[row][col] = X(cv)
             self.locked = False
