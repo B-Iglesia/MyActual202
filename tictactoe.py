@@ -13,6 +13,7 @@ screenMax = 300
 Human = -1
 Computer = 1  
 Tie = 0
+
 class Board:
     # When a board is constructed, you may want to make a copy of the board.
     # This can be a shallow copy of the board because Turtle objects are 
@@ -33,7 +34,27 @@ class Board:
                     rowlst.append(board[i][j])
                 
             self.items.append(rowlst)
-     
+    def check_across(board):
+        for x in board:
+            if(isinstance(x[0], X) and isinstance(x[1], X) and isinstance(x[2], X)):
+                return 1
+            if(isinstance(x[0], O) and isinstance(x[1], O) and isinstance(x[2], O)):
+                return -1
+    def check_down(board):
+        for x in range(3):
+            if(isinstance(board[0][x], X) and isinstance(board[1][x], X) and isinstance(board[2][x], X)):
+                return 1
+            if(isinstance(board[0][x], O) and isinstance(board[1][x], O) and isinstance(board[2][x], O)):
+                return -1
+    def check_diag(board):
+        if(isinstance(board[0][0], X) and isinstance(board[1][1], X) and isinstance(board[2][2], X)):
+            return 1
+        if(isinstance(board[0][0], O) and isinstance(board[1][1], O) and isinstance(board[2][2], O)):
+            return -1
+        if(isinstance(board[0][2], X) and isinstance(board[1][1], X) and isinstance(board[2][0], X)):
+            return 1
+        if(isinstance(board[0][2], O) and isinstance(board[1][1], O) and isinstance(board[2][0], O)):
+            return -1 
     # Accessor method for the screen
     def getscreen(self):
         return self.screen
@@ -42,6 +63,7 @@ class Board:
     # return a row of the board. That row itself is indexable (it is just 
     # a list) so accessing a row and column in the board can be written
     # board[row][column] because of this method.
+    
     def __getitem__(self,index):
         return self.items[index]
                 
@@ -74,7 +96,12 @@ class Board:
     # If the human has won, return -1. Otherwise, return 0.
     # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
     def eval(self):
-	
+        if self.check_across() == -1 or self.check_down() == -1 or self.check_diag() == -1:
+            return -1
+        if self.check_across() == 1 or self.check_down() == 1 or self.check_diag() == 1:
+            return 1
+        return 0
+        """
         potential_wins = []
 	
         for i in range(3):
@@ -98,7 +125,8 @@ class Board:
             if win_stat == -3:
                 return -1
         return 0
-
+	"""
+    
     # This method should return True if the board 
     # is completely filled up (no dummy turtles). 
     # Otherwise, it should return False.
