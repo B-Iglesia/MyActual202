@@ -213,6 +213,6 @@ class TestTicTacToe(unittest.TestCase):
       b[0][0] = X(); b[1][1] = O(); b[0][1] = X()
 
        
-      self.assertEqual(minimax(Human, b), -1, 'Board contains a win for X')      
+      self.assertEqual(minimax(Human, b), 0, 'Board contains a win for X')      
 if __name__ == '__main__':
    unittest.main()    
