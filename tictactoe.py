@@ -254,6 +254,7 @@ def tmp_gen(board, player):
 # the board is full.    
 # READER EXERCISE: YOU MUST COMPLETE THIS FUNCTION
 def minimax(player,board):
+    copy = tmp_gen(board,player)
     if board.eval() == 1:
         return 1
     if board.eval() == -1:
@@ -263,13 +264,13 @@ def minimax(player,board):
     if player == Human:
         bestValue = -1
         for move in board.available():
-            v = minimax(change_player(player), make_move(tmp_gen(board, player), move, player))
+            v = minimax(change_player(player), make_move(copy, move, player))
             bestValue = min(bestValue, v)
         return bestValue
     else:
         bestValue = 1
         for move in board.available():
-            v = minimax(change_player(player), make_move(tmp_gen(board,player),move,player))
+            v = minimax(change_player(player), make_move(copy,move,player))
             bestValue = max(bestValue, v)
         return bestValue
 class TicTacToe(tkinter.Frame):
@@ -357,26 +358,23 @@ class TicTacToe(tkinter.Frame):
             # if the best move is in the first row and third column
             # then maxMove would be (0,2).
 	    
-	    #MiniMax goes here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             """So use a for loop on minimax in order to find
 	    which move in board.available() is the 
 	    next optimal move to use
 	    """
             
             #print(board.available())
+            copy = tmp_gen(board,Computer)
             move_list = []
             max_vals = []
             for move in board.available():
                 move_list.append(move)
-                max_vals.append(minimax(Computer, make_move(tmp_gen(board,Computer),move,Computer)))
+                max_vals.append(minimax(Computer, make_move(copy,move,Computer)))
+	    
             #maxMove = board.available()[max_vals.index(max(max_vals))]
-            print(move_list)
-            print(max_vals)
             maxMove = move_list[max_vals.index(max(max_vals))]
             row, col = maxMove
             board[row][col] = X(cv)
-            for x in board:
-                print(x)
             self.locked = False
     
       
