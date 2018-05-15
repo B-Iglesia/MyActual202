@@ -4,11 +4,11 @@ class Stack:
         self.items = []
     def pop(self):
         if self.isEmpty():
-            raise RunTimeError("Attempt to pop an empty stack")
+            raise RuntimeError("Attempt to pop an empty stack")
         
         topIdx = len(self.items) - 1
         item = self.items[topIdx]
-        del self.items[idx]
+        del self.items[topIdx]
         return item
     
     def push(self, item):
@@ -19,4 +19,6 @@ class Stack:
         topIdx = len(self.items)-1
         return self.items[topIdx]
     def isEmpty(self):
-        return len(self.items) ==0
+        return len(self.items)==0
+    def __repr__(self):
+        print(str(self.items))
