@@ -34,8 +34,9 @@ def radixsort(unsortedlst, size):
                 if queue.isEmpty() == False:
                     nextword = queue.dequeue()
                     mainQueue.enqueue(nextword)
+            longest -=1 
                 
-        longest -=1          
+                 
         
     sortlst = []
     while mainQueue.isEmpty() == False:
