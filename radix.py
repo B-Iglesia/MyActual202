@@ -25,15 +25,16 @@ def radixsort(unsortedlst, size):
     for item in unsortedlst:
         mainQueue.enqueue(item)
     while longest >= 0:
-        
         word = mainQueue.dequeue()
-        char = charAt(word,longest-1)
+        char = charAt(word,longest - 1)
         queueList[ord(char)].enqueue(word)
+        
         if mainQueue.isEmpty():
             for queue in queueList:
                 if queue.isEmpty() == False:
                     nextword = queue.dequeue()
                     mainQueue.enqueue(nextword)
+                
         longest -=1          
         
     sortlst = []
@@ -42,8 +43,8 @@ def radixsort(unsortedlst, size):
     return sortlst
 
 def main():
-    alist = input("Please enter a list of words ")
-    a = alist.split(" ")
+    alist = input("Please enter a list of words: ")
+    a = alist.split()
     print(radixsort(a, len(a)))
     
 if __name__ == "__main__":
