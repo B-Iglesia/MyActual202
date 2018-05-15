@@ -57,3 +57,5 @@ def main():
     
 if __name__ == "__main__":
     main()
+#LOL I finished this thing waaaaay to fast, and I also made like 0 commits
+#So here is another comment so that I have another commit
