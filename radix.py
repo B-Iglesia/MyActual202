@@ -21,20 +21,21 @@ def radixsort(unsortedlst, size):
     longest = find_longest(unsortedlst)
     
     mainQueue = Queue()
-    queueList = [Queue() for i in range(256)]
+    queueList = [Queue() for i in range(128)]
     for item in unsortedlst:
         mainQueue.enqueue(item)
-    while longest >= 0:
+    while longest >= 1:
+        
         word = mainQueue.dequeue()
-        char = charAt(word,longest - 1)
+        char = charAt(word,longest-1)
         queueList[ord(char)].enqueue(word)
         
         if mainQueue.isEmpty():
             for queue in queueList:
-                if queue.isEmpty() == False:
+                while queue.isEmpty() == False:
                     nextword = queue.dequeue()
                     mainQueue.enqueue(nextword)
-            longest -=1 
+            longest -= 1
                 
                  
         
