@@ -22,3 +22,7 @@ class Stack:
         return len(self.items)==0
     def __repr__(self):
         print(str(self.items))
+    
+    def __iter__(self):
+        for item in self.items:
+            yield item
