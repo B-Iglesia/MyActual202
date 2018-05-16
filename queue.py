@@ -16,7 +16,7 @@ class Queue:
             raise RuntimeError("Attempt to dequeue an empty queue")
         
         if self.frontIdx * 2 > len(self.items):
-            self.compress()
+            self.__compress()
         
         item = self.items[self.frontIdx]
         self.frontIdx += 1
@@ -33,3 +33,13 @@ class Queue:
     
     def isEmpty(self):
         return self.frontIdx == len(self.items)
+    
+    def __repr__(self):
+        print(str(self.items))
+    
+    def __len__(self):
+        return len(self.items)
+
+    def __iter__(self):
+        for item in self.items:
+            yield item
