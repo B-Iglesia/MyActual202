@@ -1,0 +1,21 @@
+1. At the top
+2. Only one. Any subsequent "roots" of a tree are actually nodes that were former roots of subtrees implanted into the greater tree.
+3.
+   Three levels: 2 
+   Four levels: 4
+   Five levels: 8
+4. Nodes = 2(leaves) - 1
+5. Top down
+8. Assuming out tree is one where all the items in the sub tree to the right are greater than the root, and all items in the subtree to the left are less than the root, our algorithm should:
+Traverse the right side of our tree until it finds leaf nodes (as in getLeft() returns none). It should push items onto the stack based on there size. This will continue until getLeft() getRight() both return None. Then the root should be pushed onto the stack, and then the getRight() values of the tree should be pushed onto the stack from the left side of the tree, and then all getLeft() values should be pushed onto the stack. When the stack is pop for each item in it, the items will be in order.
+9. five = numNode(5)
+   four = numNode(4)
+   three = numNode(3)
+   two = numNode(2)
+   t = TimesNode(five,four)
+   tt = TimesNode(three, two)
+   root = PlusNode(t, tt)
+   
+   root = TimesNode(
+10. +*54 *32
+    54 * 32 * +
