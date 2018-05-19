@@ -11,6 +11,7 @@ class HashSet:
         loc = -1
         while items[idx] != None:
             if item[idx] == item:
+                #item already in set
                 return False
             if loc < 0 and type(items[idx]) == HashSet.__Placeholder:
                 loc = idx
@@ -21,14 +22,14 @@ class HashSet:
         items[loc] = item
         return True
     
-    def __rehash(oldList, newLilst):
+    def __rehash(oldList, newList):
         for x in oldList:
             if x != None and type(x) != HashSet.__Placeholder:
                 HashSet.__add(x,newList)
         return newList
     
     def add(self,item):
-        if HashSet.__add(items,self.items):
+        if HashSet.__add(item,self.items):
             self.numItems +=1
             load = self.numItems / len(self.items)
             if load >= 0.75:
@@ -78,7 +79,7 @@ class HashSet:
     
     def difference_update(self,other):
         for item in other:
-            self.discard(item)
+            self.remove(item)
     
     def difference(self,other):
         result = HashSet(self)
@@ -92,3 +93,37 @@ class HashSet:
                 return self.items[idx]
             idx = (idx + 1) % len(self.items)
         return None
+    def __repr__(self):
+        return str(self.items)
+    def copy(self):
+        newHS = HashSet()
+        for item in self.items:
+            newHS.add(item)
+        return newHS
+    
+    
+    
+def main():
+    numset = HashSet()
+    anmlset = HashSet()
+    animals = ["dog", "cat", "mouse"]
+    for i in animals:
+        anmlset.add(i)
+    for i in anmlset:
+        print(i)
+    for i in range(30):
+        numset.add(i)
+    for i in numset:
+        print(i)
+    print(numset)
+    print(anmlset)
+    anmlset.add("horse")
+    anmlset.add('turkey')
+    anmlset.remove("mouse")
+    print(anmlset)
+    print("mouse" in anmlset)
+    print("horse" in anmlset)
+    anmlcopy = anmlset.copy()
+    print(anmlset.difference(anmlcopy))
+if __name__ == '__main__':
+    main()
