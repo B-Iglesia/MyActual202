@@ -16,17 +16,17 @@ class BinarySearchTree:
             self.left = newleft
         def setRight(self, newright):
             self.right = newright
-        def find(self, data):
+        def contains(self, data):
             if self.val == data:
                 return True
             elif self.val > data:
                 if self.left:
-                    return self.left.find(data)
+                    return self.left.contains(data)
                 else:
                     return False
             else:
                 if self.right:
-                    return self.right.find(data)
+                    return self.right.contains(data)
                 else:
                     return False
         
@@ -90,9 +90,9 @@ class BinarySearchTree:
         else:
             return [].__iter__()
     
-    def find(self,data):
+    def contains(self,data):
         if self.root:
-            return self.root.find(data)
+            return self.root.contains(data)
         return False
     
     def preorder(self):
