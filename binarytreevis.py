@@ -35,13 +35,15 @@ class BinarySearchTree:
         #The smallest value will always be located to the left of the root, so
         #only goes down the left of the tree, traversing until
         #it hits "none" meaning that value is the smallest (no left leaf nodes)
-        def leftminval(self):
+        def minval(self):
             current = self
-            
+            parent = 0 
             while current.left is not None:
+                parent = current
                 current = current.left
-            
-            return current.getVal()
+                
+                
+            return current.getVal(), parent
         
         def rightminval(self):
             current = self
@@ -51,6 +53,11 @@ class BinarySearchTree:
                     current = current.left
                     break
             return current.getVal()
+        
+        def largestval(self):
+            if self.right == None:
+                return self
+            return self.right.largestval()
         #when a user deletes a value higher in a tree, the left child should
         #become the new val where the old one was.
         
@@ -84,11 +91,44 @@ class BinarySearchTree:
                     q.enqueue(a.right)
                 lol.append(a.getVal())
             return lol        
+        
+        def delete(self, val):
+            if self.val == val:
+                if self.right and self.left:
+                    succ,parent = self.left.minvalue()
+                    #find the successor of the node to be deleted, and 
+                    if parent.right == succ:
+                        parent.right = succ.left
+                    else:
+                        parent.left = succ.left
+                    
+                    succ.right = self.right
+                    succ.left = self.left
+                    
+                    return succ
+                else:
+                    if self.left:
+                        return self.left
+                    return self.right
+                
+            else:
+                if self.val > val:
+                    if self.left:
+                        self.left = self.left.delete(val)
+                else:
+                    if self.right:
+                        self.right = self.right.delete(val)
+            return self
+                
+        
         def preorder(self):
-            if self == None:
-                return []
+            pass
+        
+        def postorder(root):
+            pass
             
-            
+        def inorder(self):
+            pass
     def __init__(self, contents = []):
         self.root = None
         for i in contents:
@@ -124,13 +164,16 @@ class BinarySearchTree:
             return self.root.contains(data)
         return False
     
-    def delete(self,val):
-        pass
-    def leftminvalue(self):
-        return self.root.leftminval()
+    def delete(self, val):
+        return self.root.delete(val)
+    def minvalue(self):
+        return self.root.minval()
     def rightminvalue(self):
         return self.root.rightminval()
-        
+    def largestval(self):
+        if self.root.right == None:
+            return root
+        return self.root.largestval()
             
     
     def preorder(self):
@@ -146,17 +189,19 @@ class BinarySearchTree:
 
 
 def main():
-    tree = BinarySearchTree([1,3,4,2,6,5,8,7,9])
+    tree = BinarySearchTree([10, 7, 13, 4, 8 , 12, 14,2,5,15])
     
  
 
-    print(tree.leftminvalue())
+    print(tree.minvalue())
     print(tree.rightminvalue())
+    print(tree.largestval())
     tree.delete(2)
+    print(2 in tree)
     for i in tree:
         print(i)
     print(tree.levelorder())
-    print(tree.preorder())
+    print(tree.postorder())
     
 if __name__ == "__main__":
     main()
