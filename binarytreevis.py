@@ -139,8 +139,19 @@ class BinarySearchTree:
                 c = root.right.preorder()
             return a + b + c
         
-        def postorder(root):
-            pass
+        def postorder(self):
+            root = self
+            a = []
+            b = []
+            if not root:
+                return
+            if root.left:
+                a = root.left.postorder()
+            if root.right:
+                b = root.right.postorder()
+            c = [root.getVal()]
+            return a + b + c
+            
             
         def inorder(self):
             ordered = []
@@ -224,5 +235,6 @@ def main():
     print(tree.levelorder(), "levelorder")
     print(tree.inorder(), "inorder")
     print(tree.preorder(), "preorder")
+    print(tree.postorder(), "postorder")
 if __name__ == "__main__":
     main()
