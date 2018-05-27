@@ -37,22 +37,24 @@ class BinarySearchTree:
         #it hits "none" meaning that value is the smallest (no left leaf nodes)
         def minval(self):
             current = self
-            parent = 0 
+            parent = self 
             while current.left is not None:
                 parent = current
+                
                 current = current.left
                 
-                
-            return current.getVal(), parent
+            return current, parent
         
         def rightminval(self):
             current = self
+            parent = self
             while current.right is not None:
+                parent = current
                 current = current.right
                 if current.left != None:
                     current = current.left
                     break
-            return current.getVal()
+            return current, parent
         
         def largestval(self):
             if self.right == None:
@@ -92,18 +94,21 @@ class BinarySearchTree:
                 lol.append(a.getVal())
             return lol        
         
+        
+        
+        
         def delete(self, val):
             if self.val == val:
                 if self.right and self.left:
-                    succ,parent = self.left.minvalue()
+                    succ,parent = self.left.rightminval()
                     #find the successor of the node to be deleted, and 
-                    if parent.right == succ:
-                        parent.right = succ.left
+                    if parent.left == succ:
+                        parent.left = succ.right
                     else:
-                        parent.left = succ.left
+                        parent.right = succ.right
                     
-                    succ.right = self.right
                     succ.left = self.left
+                    succ.right = self.right
                     
                     return succ
                 else:
@@ -119,16 +124,29 @@ class BinarySearchTree:
                     if self.right:
                         self.right = self.right.delete(val)
             return self
-                
-        
+     
+     
         def preorder(self):
-            pass
+            root = self
+            b = []
+            c = []
+            if not root:
+                return
+            a = [root.getVal()]
+            if root.left:
+                b = root.left.preorder()
+            if root.right:
+                c = root.right.preorder()
+            return a + b + c
         
         def postorder(root):
             pass
             
         def inorder(self):
-            pass
+            ordered = []
+            for i in self:
+                ordered.append(i)
+            return ordered
     def __init__(self, contents = []):
         self.root = None
         for i in contents:
@@ -189,19 +207,22 @@ class BinarySearchTree:
 
 
 def main():
-    tree = BinarySearchTree([10, 7, 13, 4, 8 , 12, 14,2,5,15])
+    tree = BinarySearchTree(contents = [10, 7, 13, 4, 8,12, 14,2,5,15])
     
  
 
-    print(tree.minvalue())
-    print(tree.rightminvalue())
-    print(tree.largestval())
-    tree.delete(2)
+    #print(tree.minvalue())
+    #print(tree.rightminvalue())
+    #print(tree.largestval())
+    #tree.delete(10)
+    #tree.delete(7)
+    print(7 in tree)
+    print(10 in tree, "I should not be here FUUUUUUUUUUUUCK")
+    #tree.delete(2)
+    #tree.delete(4)
     print(2 in tree)
-    for i in tree:
-        print(i)
-    print(tree.levelorder())
-    print(tree.postorder())
-    
+    print(tree.levelorder(), "levelorder")
+    print(tree.inorder(), "inorder")
+    print(tree.preorder(), "preorder")
 if __name__ == "__main__":
     main()
