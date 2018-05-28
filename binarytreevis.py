@@ -90,8 +90,7 @@ class BinarySearchTree:
                     q.enqueue(a.right)
                 lol.append(a.getVal())
             return lol        
-        
-        """      
+              
         def delete(self, val):
             if self.val == val:
                 #checks if there are 2 children
@@ -117,21 +116,7 @@ class BinarySearchTree:
                     if self.right:
                         self.right = self.right.delete(val)
             return self
-        """
-        def delete(self,val):
-            if self.val == None:
-                return None
-            if self.val > val:
-                return self.left.delete(val)
-            elif self.val < val:
-                return self.right.delete(val)
-            else:
-                if self.two_children():
-                    pass
-                elif self.no_children():
-                    self.val == None
-                    return self
-            return self
+
         def preorder(self):
             root = self
             b = []
@@ -228,14 +213,12 @@ def main():
     tree2 = BinarySearchTree(contents = [0,1,2])
     tree2.delete(0)
     #print(0 in tree2)
-    for i in tree2:
-        print(i)
+
     tree2.delete(2)
-    for i in tree2:
-        print(i)
     tree2.insert(2)
     tree2.delete(1)
-    
+    for i in tree2:
+        print(i)
     tree2.insert(1)
     
     tree.delete(10)
