@@ -38,6 +38,21 @@ class BinarySearchTree:
                     return self.right.contains(data)
                 else:
                     return False
+        def findNode(self,data):
+            if self.contains(data) == True:
+                if self.val == data:
+                    return self
+                elif self.getVal() > data:
+                    if self.left:
+                        return self.left.findNode(data)
+                    else:
+                        return False
+                else:
+                    if self.right:
+                        return self.right.findNode(data)
+                    else:
+                        return False
+                
         def two_children(self):
             if self.left != None and self.right != None:
                 return True
@@ -187,6 +202,9 @@ class BinarySearchTree:
                 root.setRight(__insert(root.getRight(),val))
             
             return root
+        if(self.root != None):
+            if self.root.contains(val) == True:
+                return        
         self.root = __insert(self.root,val)
     
     def __iter__(self):
@@ -225,7 +243,8 @@ class BinarySearchTree:
         return self.root.inorder()
     def levelorder(self):
         return self.root.levelorder()
-
+    def find(self,val):
+        return self.root.findNode(val)
 BST = BinarySearchTree()
 cvh = 600
 cvw = 600
@@ -350,7 +369,7 @@ class BSTVis(tkinter.Frame):
                     yc = yc - b*scale
                     b = b 
                     scale = scale - .5
-                    if root.val == val:
+                    if root.val == text:
                         
                         t.pd()
                     
@@ -372,8 +391,16 @@ class BSTVis(tkinter.Frame):
         
         def deleteHandler():
             a = float(self.e.get())
-            turtledelete(a,x,y)
-            BST.delete(a)
+            if BST.find(a).no_children() == False:
+                
+                cv.delete("all")
+                BST.delete(a)
+                for i in BST.levelorder():
+                    turtleinsert(i,x,y)
+            else:
+                BST.delete(a)
+                turtledelete(a,x,y)
+            #BST.delete(a)
             
         deleteButton = tkinter.Button(frame,text="Delete",command = deleteHandler)
         deleteButton.pack()
