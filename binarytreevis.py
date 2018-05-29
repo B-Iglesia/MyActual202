@@ -227,6 +227,10 @@ class BinarySearchTree:
         return self.root.levelorder()
 
 BST = BinarySearchTree()
+cvh = 600
+cvw = 600
+x = 150
+y = 290
 class BSTVis(tkinter.Frame):
     def __init__(self, master = None):
         super().__init__(master)
@@ -239,9 +243,11 @@ class BSTVis(tkinter.Frame):
         self.locked = False
         
     def buildWindow(self):
-        cv = ScrolledCanvas(self, 600,600,600,600)
+        cv = ScrolledCanvas(self, cvw,cvw,cvh,cvh)
         cv.pack(side = tkinter.LEFT)
         t = RawTurtle(cv)
+        t.pu()
+        
         screen = t.getscreen()
         screen.tracer(100000)
         
@@ -249,13 +255,15 @@ class BSTVis(tkinter.Frame):
         screen.bgcolor("white")
         t.ht()
         
+        t.pencolor("#000000")
+                
         frame = tkinter.Frame(self)
         frame.pack(side = tkinter.RIGHT,fill=tkinter.BOTH)
         
         def quitHandler():
             self.master.quit()
         
-        quitButton = tkinter.Button(frame, text = "Quit", command =quitHandler)
+        quitButton = tkinter.Button(frame, text = "Quit", command=quitHandler)
         quitButton.pack()
         
         
@@ -263,13 +271,30 @@ class BSTVis(tkinter.Frame):
         self.e = Entry(frame)
         self.e.pack()
         
+        #turtle.dot
+        def turtleinsert(text,xc,yc):
+            root = BST.root
+            b = 10
+            t.pu()
+            t.goto(xc,yc)
+            
+            if text < root.val:
+                t.pd()
+                t.goto(xc-b,yc-b)
+                t.pu()
+            if text > root.val:
+                t.pd()
+                t.goto(xc+b,yc-b)
+                t.pu()
+            t.dot()
+            t.write(text)
         
         
         def insertHandler():
-            a = self.e.get()
+            a = int(self.e.get())
             BST.insert(a)
+            turtleinsert(a,x,y)
         
-  
         insertButton = tkinter.Button(frame, text = "Insert", command = insertHandler)
         insertButton.pack()
         
@@ -285,6 +310,9 @@ class BSTVis(tkinter.Frame):
         containsButton = tkinter.Button(frame,text = "Contains?", command=containsHandler)
         containsButton.pack()
         
+        def turtledelete():
+            pass
+        
         def deleteHandler():
             a = self.e.get()
             BST.delete(a)
@@ -295,19 +323,20 @@ class BSTVis(tkinter.Frame):
 def main():
     tree = BinarySearchTree(contents = [10, 7, 13, 4, 8,7.5,12, 14,2,5,15, 16])
     tree2 = BinarySearchTree(contents=[5,4,3,2,1])
-    tree3 = BinarySearchTree(contents=[0,1,2,3,4,5])
+    tree3 = BinarySearchTree(contents=[5,1,2,3,4,0])
     #tree2.delete(0)
     #print(tree2.delete(0))
     #print(0 in tree2)
     #tree.delete(7)
     #tree.delete(14)
     
-    #rot = tkinter.Tk()
-    #rot.title("Binary Search Tree Visualizer")
-    #application = BSTVis(rot)
-    #application.mainloop()
-    tree2.delete(5)
-    print(tree2.inorder())
+    rot = tkinter.Tk()
+    rot.title("Binary Search Tree Visualizer")
+    application = BSTVis(rot)
+    application.mainloop()
+   # tree3.delete(5)
+   # for i in tree3:
+    #    print(i)
     #print(tree.levelorder(), "levelorder")
     #print(tree.inorder(), "inorder")
     #print(tree.preorder(), "preorder")
