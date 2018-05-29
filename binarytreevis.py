@@ -6,6 +6,7 @@ import tkinter
 from tkinter import *
 screenMin = 0
 screenMax = 300
+
 class BinarySearchTree:
     class __Node:
         def __init__(self,val,left=None,right=None):
@@ -225,7 +226,7 @@ class BinarySearchTree:
     def levelorder(self):
         return self.root.levelorder()
 
-
+BST = BinarySearchTree()
 class BSTVis(tkinter.Frame):
     def __init__(self, master = None):
         super().__init__(master)
@@ -236,6 +237,7 @@ class BSTVis(tkinter.Frame):
         self.stop = False
         self.running = False
         self.locked = False
+        
     def buildWindow(self):
         cv = ScrolledCanvas(self, 600,600,600,600)
         cv.pack(side = tkinter.LEFT)
@@ -252,39 +254,61 @@ class BSTVis(tkinter.Frame):
         
         def quitHandler():
             self.master.quit()
+        
         quitButton = tkinter.Button(frame, text = "Quit", command =quitHandler)
         quitButton.pack()
         
-        def entryHandler():
-            pass
-        e = Entry(frame)
-        e.pack()
         
-        insertButton = tkinter.Button(frame, text = "Insert")
+        
+        self.e = Entry(frame)
+        self.e.pack()
+        
+        
+        
+        def insertHandler():
+            a = self.e.get()
+            BST.insert(a)
+        
+  
+        insertButton = tkinter.Button(frame, text = "Insert", command = insertHandler)
         insertButton.pack()
         
-        containsButton = tkinter.Button(frame,text = "Contains?")
+        def containsHandler():
+            a = self.e.get()
+            top = Toplevel()
+            if BST.contains(a):
+                msg = Button(top, text="True!", command=top.destroy)
+                msg.pack()
+            else:
+                msg= Button(top, text = "False!", command = top.destroy)
+                msg.pack()
+        containsButton = tkinter.Button(frame,text = "Contains?", command=containsHandler)
         containsButton.pack()
         
-        
+        def deleteHandler():
+            a = self.e.get()
+            BST.delete(a)
+        deleteButton = tkinter.Button(frame,text="Delete",command = deleteHandler)
+        deleteButton.pack()
+
+
 def main():
     tree = BinarySearchTree(contents = [10, 7, 13, 4, 8,7.5,12, 14,2,5,15, 16])
-    tree2 = BinarySearchTree(contents=[0, 1, 2])
+    tree2 = BinarySearchTree(contents=[5,4,3,2,1])
     tree3 = BinarySearchTree(contents=[0,1,2,3,4,5])
-    tree2.delete(0)
-    print(tree2.delete(0))
-    print(0 in tree2)
+    #tree2.delete(0)
+    #print(tree2.delete(0))
+    #print(0 in tree2)
+    #tree.delete(7)
+    #tree.delete(14)
     
-    for i in tree2:
-        print(i)
- #   print(tree2.levelorder())
-  #  tree.delete(15)
-    
-#    rot = tkinter.Tk()
- #   rot.title("Binary Search Tree Visualizer")
-  #  application = BSTVis(rot)
-   # application.mainloop()
-    print(tree.levelorder(), "levelorder")
+    #rot = tkinter.Tk()
+    #rot.title("Binary Search Tree Visualizer")
+    #application = BSTVis(rot)
+    #application.mainloop()
+    tree2.delete(5)
+    print(tree2.inorder())
+    #print(tree.levelorder(), "levelorder")
     #print(tree.inorder(), "inorder")
     #print(tree.preorder(), "preorder")
     #print(tree.postorder(), "postorder")
