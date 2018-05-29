@@ -284,7 +284,7 @@ class BSTVis(tkinter.Frame):
                     root = root.left
                     xc = xc - b*scale
                     yc = yc - b*scale
-                    b = b - 1
+                    b = b 
                     scale = scale - .5
                     t.pd()
                     t.goto(xc,yc)
@@ -293,7 +293,7 @@ class BSTVis(tkinter.Frame):
                     root = root.right
                     xc = xc + b*scale
                     yc = yc - b*scale
-                    b = b - 1
+                    b = b 
                     scale = scale - .5
                     t.pd()
                     t.goto(xc,yc)
@@ -336,22 +336,29 @@ class BSTVis(tkinter.Frame):
                     root = root.left
                     xc = xc - b*scale
                     yc = yc - b*scale
-                    b = b - 1
+                    b = b 
                     scale = scale - .5
-                    #t.pd()
+                    if root.val == text:
+                        
+                        t.pd()
+                        
                     t.goto(xc,yc)
-                    #t.pu()
+                    t.pu()
                 while text > root.val:
                     root = root.right
                     xc = xc + b*scale
                     yc = yc - b*scale
-                    b = b - 1
+                    b = b 
                     scale = scale - .5
-                    #t.pd()
+                    if root.val == val:
+                        
+                        t.pd()
+                    
                     t.goto(xc,yc)
-                    #t.pu()
+                    t.pu()
                 if root.no_children():
                     break
+            
             t.dot("#ffffff")
             t.dot("#ffffff")
             t.dot("#ffffff")
@@ -367,7 +374,7 @@ class BSTVis(tkinter.Frame):
             a = float(self.e.get())
             turtledelete(a,x,y)
             BST.delete(a)
-        
+            
         deleteButton = tkinter.Button(frame,text="Delete",command = deleteHandler)
         deleteButton.pack()
 
