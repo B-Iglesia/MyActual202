@@ -273,25 +273,39 @@ class BSTVis(tkinter.Frame):
         
         #turtle.dot
         def turtleinsert(text,xc,yc):
+            t.pencolor("#000000")
             root = BST.root
             b = 10
+            scale = 4
             t.pu()
             t.goto(xc,yc)
-            
-            if text < root.val:
-                t.pd()
-                t.goto(xc-b,yc-b)
-                t.pu()
-            if text > root.val:
-                t.pd()
-                t.goto(xc+b,yc-b)
-                t.pu()
+            while True:
+                while text < root.val:
+                    root = root.left
+                    xc = xc - b*scale
+                    yc = yc - b*scale
+                    b = b - 1
+                    scale = scale - .5
+                    t.pd()
+                    t.goto(xc,yc)
+                    t.pu()
+                while text > root.val:
+                    root = root.right
+                    xc = xc + b*scale
+                    yc = yc - b*scale
+                    b = b - 1
+                    scale = scale - .5
+                    t.pd()
+                    t.goto(xc,yc)
+                    t.pu()
+                if root.no_children():
+                    break
             t.dot()
             t.write(text)
-        
+            
         
         def insertHandler():
-            a = int(self.e.get())
+            a = float(self.e.get())
             BST.insert(a)
             turtleinsert(a,x,y)
         
@@ -299,7 +313,7 @@ class BSTVis(tkinter.Frame):
         insertButton.pack()
         
         def containsHandler():
-            a = self.e.get()
+            a = int(self.e.get())
             top = Toplevel()
             if BST.contains(a):
                 msg = Button(top, text="True!", command=top.destroy)
@@ -310,12 +324,50 @@ class BSTVis(tkinter.Frame):
         containsButton = tkinter.Button(frame,text = "Contains?", command=containsHandler)
         containsButton.pack()
         
-        def turtledelete():
-            pass
+        def turtledelete(text,xc,yc):
+            t.pencolor("#ffffff")
+            root = BST.root
+            b = 10
+            scale = 4
+            t.pu()
+            t.goto(xc,yc)
+            while True:
+                while text < root.val:
+                    root = root.left
+                    xc = xc - b*scale
+                    yc = yc - b*scale
+                    b = b - 1
+                    scale = scale - .5
+                    #t.pd()
+                    t.goto(xc,yc)
+                    #t.pu()
+                while text > root.val:
+                    root = root.right
+                    xc = xc + b*scale
+                    yc = yc - b*scale
+                    b = b - 1
+                    scale = scale - .5
+                    #t.pd()
+                    t.goto(xc,yc)
+                    #t.pu()
+                if root.no_children():
+                    break
+            t.dot("#ffffff")
+            t.dot("#ffffff")
+            t.dot("#ffffff")
+            t.write(text)
+            t.write(text)
+            t.write(text)
+            t.write(text)
+            t.write(text)
+            t.write(text)
+            t.write(text)
         
         def deleteHandler():
-            a = self.e.get()
+            a = float(self.e.get())
+            turtledelete(a,x,y)
             BST.delete(a)
+        
         deleteButton = tkinter.Button(frame,text="Delete",command = deleteHandler)
         deleteButton.pack()
 

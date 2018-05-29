@@ -104,6 +104,7 @@ class Asg3Tests(unittest.TestCase):
         bt = BinarySearchTree(contents=[0, 1, 2]) 
         bt.delete(0)
         self.assertListEqual(bt.inorder(), [1, 2])
+           
     def test_binsearchtree_delete2(self):
         bt = BinarySearchTree(contents=[0, 1, 2,-.05]) 
         bt.delete(1)
