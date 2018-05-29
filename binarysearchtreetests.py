@@ -136,5 +136,20 @@ class Asg3Tests(unittest.TestCase):
         bt.delete(2)
         self.assertFalse(2 in bt)         
     
+    def test_largest1(self):
+        bt = BinarySearchTree(contents=[10,9,8,11])
+        self.assertEqual(bt.largestval().val, 11)
+    def test_largest2(self):
+        bt = BinarySearchTree(contents=[0])
+        self.assertEqual(bt.largestval().val, 0)
+    def test_largest3(self):
+        bt = BinarySearchTree(contents=[9,10,11,2,4,6,7,5,66])
+        self.assertEqual(bt.largestval().val, 66)   
+    def test_largest4(self):
+        bt = BinarySearchTree(contents=[9,10,5,4])
+        self.assertEqual(bt.largestval().val, 10)    
+    def test_finder(self):
+        bt = BinarySearchTree(contents=[9,10,5,4])
+        self.assertEqual(bt.find(4).val, 4)
 if __name__ == '__main__':
     unittest.main()

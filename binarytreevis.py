@@ -202,7 +202,7 @@ class BinarySearchTree:
                 root.setRight(__insert(root.getRight(),val))
             
             return root
-        if(self.root != None):
+        if self.root != None:
             if self.root.contains(val) == True:
                 return        
         self.root = __insert(self.root,val)
@@ -250,6 +250,7 @@ cvh = 600
 cvw = 600
 x = 150
 y = 290
+
 class BSTVis(tkinter.Frame):
     def __init__(self, master = None):
         super().__init__(master)
@@ -391,21 +392,20 @@ class BSTVis(tkinter.Frame):
         
         def deleteHandler():
             a = float(self.e.get())
+            q = Queue()
             if BST.find(a).no_children() == False:
                 
-                cv.delete("all")
+                t.clear()
                 BST.delete(a)
-                for i in BST.levelorder():
-                    turtleinsert(i,x,y)
+                
             else:
-                BST.delete(a)
                 turtledelete(a,x,y)
-            #BST.delete(a)
+                BST.delete(a)
             
         deleteButton = tkinter.Button(frame,text="Delete",command = deleteHandler)
         deleteButton.pack()
 
-
+        
 def main():
     tree = BinarySearchTree(contents = [10, 7, 13, 4, 8,7.5,12, 14,2,5,15, 16])
     tree2 = BinarySearchTree(contents=[5,4,3,2,1])
