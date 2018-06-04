@@ -24,13 +24,22 @@ class Node:
 #and will return the huffman coding tree for X
 '''=== Higher frequency characters have lower priorty==='''
 def huffman(X):
+    x = X.lower()
     Q = PriorityQueue()
-    f = freq(X) #This is a dictionary
+    f = freq(x) #This is a dictionary
     n = []
     for k in f:
         n.append(Node(f[k],k,k,k))
     for i in n:
-        Q.enqueue(i,ord(i.char)*i.freq)
+        if i.freq > 1:
+            tmp=.0001
+            if i.freq > = 2:
+                tmp = .00001
+                if i.freq > 3:
+                    tmp = .000001
+                    if i.freq > 4:
+                        tmp = .0000001
+
 #Helper function for Huffman that will count the frequency of characters 
 #i.e apple, p shows up twice, break ties for characters that have the same frequency by checking ASCII codes
 def freq(c):
