@@ -30,14 +30,17 @@ class PriorityQueue:
         def __enqueue(root,d,p):
             if root == None:
                 return PriorityQueue.__Node(d,p)
-            newNode = PriorityQueue.__Node(d,p)
-            if newNode.priority > root.priority:
+            temp = PriorityQueue.__Node(d,p)
+            if p > root.priority:
                 
-                temp = root
-                root = newNode
-                root.next = temp
+                temp.next = root
+                root = temp
             else:
-                root.next = newNode
+                while root.next != None and root.next.priority < p:
+                    root = root.next
+                
+                temp.next = root.next
+                root.next = temp
             return root
         self.root = __enqueue(self.root,d,p)
         self.count+=1
@@ -50,6 +53,8 @@ class PriorityQueue:
     def front(self):
         return str(self.root)
     def __repr__(self):
+        return repr(list(self))
+    def __str__(self):
         return str(list(self))
     def __iter__(self):
         current = self.root
@@ -67,7 +72,8 @@ def main():
     print(p)
     print(p.front())
     while p:
-        p.dequeue()
+        print(p.dequeue())
+    print(p)
     print(p.isEmpty())
 if __name__ == "__main__":
     main()

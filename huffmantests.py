@@ -15,7 +15,30 @@ class Asg4(unittest.TestCase):
       self.assertEqual(pq.front(), 'z')
       pq.enqueue('ZZ', -1)
       self.assertEqual(pq.front(), 'z')         
-        
+   
+   def test_priorityqueue_2(self):
+      pq = PriorityQueue()
+      pq.enqueue('aa', 7)
+      self.assertEqual(pq.front(), 'aa')
+      pq.enqueue('b', 5)
+      self.assertEqual(pq.front(), 'aa')
+      pq.enqueue('j', 100)
+      self.assertEqual(pq.front(), 'j')
+      pq.enqueue('f', 2222)
+      self.assertEqual(pq.front(), 'f')
+   def test_priorityqueue_3(self):
+      pq = PriorityQueue()
+      pq.enqueue('a', -1)
+      self.assertEqual(pq.front(), 'a')
+      pq.enqueue('b', 5)
+      self.assertEqual(pq.front(), 'b')
+      pq.enqueue('c', 100)
+      self.assertEqual(pq.front(), 'c')
+      pq.enqueue('D', 6999)
+      self.assertEqual(pq.front(), 'D')         
+   
+         
+             
    def test_huffman_1(self):
       sent = 'aaaaggccttt'; codes = dict(); root = huffman(sent)
 
