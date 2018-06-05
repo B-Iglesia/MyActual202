@@ -27,9 +27,6 @@ class PriorityQueue:
     def __len__(self):
         return self.count
     
-    ''' I REALLY NEED TO FIX THIS 
-    It's overwriting values, when they should just be appended at the end or inserted 
-    '''
     def enqueue(self,d,p):
         def __enqueue(root,d,p):
             if root == None:
@@ -55,8 +52,8 @@ class PriorityQueue:
         self.root = __enqueue(self.root,d,p)
         self.count+=1
     def dequeue(self):
-        temp = self
-        self.root = self.root.getN()
+        temp = self.root
+        self.root = self.root.next
         
         self.count -=1
         return temp
@@ -64,8 +61,6 @@ class PriorityQueue:
         return str(self.root)
     def __repr__(self):
         return repr(list(self))
-    def __str__(self):
-        return str(list(self))
     def __iter__(self):
         current = self.root
         while current != None:
@@ -79,6 +74,10 @@ def main():
     p.enqueue("b", 8)
     p.enqueue("d",4)
     p.enqueue("e", 9)
+    p.enqueue("f", 3)
+    p.enqueue("j", 10)
     print(p)
+    print(p.dequeue())
+    
 if __name__ == "__main__":
     main()
