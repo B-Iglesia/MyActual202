@@ -26,22 +26,32 @@ class PriorityQueue:
         return self.count == 0
     def __len__(self):
         return self.count
+    
+    ''' I REALLY NEED TO FIX THIS 
+    It's overwriting values, when they should just be appended at the end or inserted 
+    '''
     def enqueue(self,d,p):
         def __enqueue(root,d,p):
             if root == None:
                 return PriorityQueue.__Node(d,p)
-            temp = PriorityQueue.__Node(d,p)
+            newNode = PriorityQueue.__Node(d,p)
             if p > root.priority:
-                
-                temp.next = root
-                root = temp
+                newNode.next = root
+                root = newNode
             else:
-                while root.next != None and root.next.priority < p:
-                    root = root.next
+                current_node = root
+                while p < current_node.priority and current_node.next != None:
+                    current_node = current_node.next
+                if current_node.next == None:
+                    current_node.next = newNode
+                    #return current_node
+                if p > current_node.priority:
+                    newNode.next = current_node
+                    current_node = newNode
+                    #return newNode
                 
-                temp.next = root.next
-                root.next = temp
             return root
+                
         self.root = __enqueue(self.root,d,p)
         self.count+=1
     def dequeue(self):
@@ -64,16 +74,11 @@ class PriorityQueue:
         
 def main():
     p = PriorityQueue()
-    for i in range(11):
-        p.enqueue(i**2,i**2)
-    print(p.count)
+    p.enqueue("a",5)
+    p.enqueue("c",7 )
+    p.enqueue("b", 8)
+    p.enqueue("d",4)
+    p.enqueue("e", 9)
     print(p)
-    p.dequeue()
-    print(p)
-    print(p.front())
-    while p:
-        print(p.dequeue())
-    print(p)
-    print(p.isEmpty())
 if __name__ == "__main__":
     main()
