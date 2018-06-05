@@ -53,6 +53,8 @@ class PriorityQueue:
         self.count+=1
     def dequeue(self):
         temp = self.root
+        if self.root.next == None:
+            return PriorityQueue.__Node(None,None)
         self.root = self.root.next
         
         self.count -=1
@@ -66,7 +68,8 @@ class PriorityQueue:
         while current != None:
             yield current.getD()
             current = current.getN()
-        
+    def __len__(self):
+        return self.count
 def main():
     p = PriorityQueue()
     p.enqueue("a",5)

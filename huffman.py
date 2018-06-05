@@ -19,7 +19,7 @@ class Node:
         self.left = left
         self.right = right
     def __repr__(self):
-        return str((self.char, self.freq))
+        return str((self.char, self.freq, "Left", self.left, "Right", self.right))
 #this will take a string X of length n with d distinct characters
 #and will return the huffman coding tree for X
 '''=== Higher frequency characters have lower priority==='''
@@ -30,15 +30,17 @@ def huffman(X):
     for c in f:
         T = Node(f[c],c,None,None)
         Q.enqueue(T, 100-(f[c]*ord(c)))
-    while Q:
+    while len(Q) > 1:
+        print(len(Q))
         T1 = Q.dequeue()
-        print(type(T1))
         T2 = Q.dequeue()
-        #T = Node(None, T1.freq + T2.freq, T1, T2)
+        print("T1:",T1, "T2", T2)
+        newF = T1.data.freq + T2.data.freq
+        T = Node(newF, str(newF), T1, T2)
         print(T)
-        Q.enqueue(T, 100 - T.freq)
-        print(Q)
-    
+        Q.enqueue(T)
+    #T = Q.dequeue()
+    #return T
 #Helper function for Huffman that will count the frequency of characters 
 #i.e apple, p shows up twice, break ties for characters that have the same frequency by checking ASCII codes
 def freq(c):
