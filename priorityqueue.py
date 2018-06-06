@@ -33,9 +33,12 @@ class PriorityQueue:
             if root == None:
                 return PriorityQueue.__Node(d,p)
             newNode = PriorityQueue.__Node(d,p)
-            if float(p) > float(root.priority):
+            if float(p) >= float(root.priority):
                 newNode.next = root
                 root = newNode
+            #elif float(p) == float(root.priority):
+                    #newNode.next = root
+                    #root = newNode
             else:
                 root.setN(__enqueue(root.next,d,p))
             '''
