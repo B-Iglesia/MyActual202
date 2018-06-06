@@ -30,8 +30,7 @@ def huffman(X):
     f = freq(X) #This is a dictionary
     for c in f:
         T = Node(f[c],c,None,None)
-        Q.enqueue(T, 100-f[c])
-    
+        Q.enqueue(T, 100-(ord(c)*f[c]))
     while len(Q) > 1:
     
         T1 = Q.dequeue()
@@ -58,6 +57,6 @@ def freq(c):
     
 
 def main():
-    print(huffman("aaaaaffffjjjkllloooooo"))
+    print(huffman("aaaaajjjjjdddkkllllllff"))
 if __name__ == '__main__':
     main()

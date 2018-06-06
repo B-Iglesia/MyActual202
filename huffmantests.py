@@ -67,6 +67,6 @@ class Asg4(unittest.TestCase):
          codes[ch] = get_huffman_code(ch, root)  
 
       self.assertDictEqual(codes, {'a': '0', 'g': '111', 'c': '110', 't': '10'})
-        
+  
 if __name__ == '__main__':  
    unittest.main()
