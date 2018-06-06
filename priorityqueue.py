@@ -32,29 +32,33 @@ class PriorityQueue:
             if root == None:
                 return PriorityQueue.__Node(d,p)
             newNode = PriorityQueue.__Node(d,p)
-            if p > root.priority:
+            if float(p) > float(root.priority):
                 newNode.next = root
                 root = newNode
             else:
                 current_node = root
-                while p < current_node.priority and current_node.next != None:
+                while float(p) < float(current_node.priority) and current_node.next != None:
                     current_node = current_node.next
                 if current_node.next == None:
                     current_node.next = newNode
                     #return current_node
-                if p > current_node.priority:
+                if float(p) > float(current_node.priority):
                     newNode.next = current_node
                     current_node = newNode
                     #return newNode
-                
+                if float(p) == float(current_node.priority) and float(p) > float(current_node.next.priority):
+                    newNode.next = current_node.next
+                    current_node.next = newNode
             return root
                 
         self.root = __enqueue(self.root,d,p)
         self.count+=1
     def dequeue(self):
         temp = self.root
-        if self.root.next == None:
-            return PriorityQueue.__Node(None,None)
+        #if self.root.next == None:
+            
+        #    self.count -=1
+            
         self.root = self.root.next
         
         self.count -=1
@@ -72,15 +76,17 @@ class PriorityQueue:
         return self.count
 def main():
     p = PriorityQueue()
+    
     p.enqueue("a",5)
     p.enqueue("c",7 )
     p.enqueue("b", 8)
-    p.enqueue("d",4)
+    p.enqueue("d",5)
     p.enqueue("e", 9)
     p.enqueue("f", 3)
     p.enqueue("j", 10)
     print(p)
-    print(p.dequeue())
-    
+    while p:
+        p.dequeue()
+        print(p)
 if __name__ == "__main__":
     main()

@@ -26,21 +26,22 @@ class Node:
 def huffman(X):
     X.lower()
     Q = PriorityQueue()
+    
     f = freq(X) #This is a dictionary
     for c in f:
         T = Node(f[c],c,None,None)
-        Q.enqueue(T, 100-(f[c]*ord(c)))
+        Q.enqueue(T, 100-f[c])
+    
     while len(Q) > 1:
-        print(len(Q))
+    
         T1 = Q.dequeue()
         T2 = Q.dequeue()
-        print("T1:",T1, "T2", T2)
-        newF = T1.data.freq + T2.data.freq
-        T = Node(newF, str(newF), T1, T2)
-        print(T)
-        Q.enqueue(T)
-    #T = Q.dequeue()
-    #return T
+        T = Node(T1.data.freq + T2.data.freq, str(T1.data.freq + T2.data.freq), T1, T2)
+    
+        Q.enqueue(T, 100 - (T1.data.freq + T2.data.freq))
+    
+    T = Q.dequeue()
+    return T
 #Helper function for Huffman that will count the frequency of characters 
 #i.e apple, p shows up twice, break ties for characters that have the same frequency by checking ASCII codes
 def freq(c):

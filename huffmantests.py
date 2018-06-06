@@ -1,4 +1,3 @@
-
 from priorityqueue import *
 from huffman import *
 
@@ -26,6 +25,7 @@ class Asg4(unittest.TestCase):
       self.assertEqual(pq.front(), 'j')
       pq.enqueue('f', 2222)
       self.assertEqual(pq.front(), 'f')
+   
    def test_priorityqueue_3(self):
       pq = PriorityQueue()
       pq.enqueue('a', -1)
@@ -35,10 +35,31 @@ class Asg4(unittest.TestCase):
       pq.enqueue('c', 100)
       self.assertEqual(pq.front(), 'c')
       pq.enqueue('D', 6999)
-      self.assertEqual(pq.front(), 'D')         
+      self.assertEqual(pq.front(), 'D')
+      
+      
+   def test_priorityqueue_4(self):
+      pq = PriorityQueue()
+      pq.enqueue('a', 10)
+      self.assertEqual(pq.front(), 'a')
+      pq.enqueue('b', 5)
+      self.assertEqual(pq.front(), 'a')
+      pq.enqueue('c', 100)
+      self.assertEqual(pq.front(), 'c')
+      pq.enqueue('D', 4)
+      self.assertEqual(pq.front(), 'c')       
    
-         
-             
+   def test_priorityqueue_5(self):
+      pq = PriorityQueue()
+      pq.enqueue('a', 10)
+      self.assertEqual(pq.front(), 'a')
+      pq.enqueue('b', 15)
+      self.assertEqual(pq.front(), 'b')
+      pq.enqueue('c', 1)
+      self.assertEqual(pq.front(), 'b')
+      pq.enqueue('D', 4)
+      self.assertEqual(pq.front(), 'b')         
+              
    def test_huffman_1(self):
       sent = 'aaaaggccttt'; codes = dict(); root = huffman(sent)
 
