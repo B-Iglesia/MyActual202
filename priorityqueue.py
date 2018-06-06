@@ -28,6 +28,7 @@ class PriorityQueue:
         return self.count
     
     def enqueue(self,d,p):
+        
         def __enqueue(root,d,p):
             if root == None:
                 return PriorityQueue.__Node(d,p)
@@ -36,24 +37,30 @@ class PriorityQueue:
                 newNode.next = root
                 root = newNode
             else:
+                root.setN(__enqueue(root.next,d,p))
+            '''
+            else:
                 current_node = root
                 while float(p) < float(current_node.priority) and current_node.next != None:
                     current_node = current_node.next
-                if current_node.next == None:
-                    current_node.next = newNode
+                
                     #return current_node
                 if float(p) > float(current_node.priority):
                     newNode.next = current_node
-                    current_node = newNode
-                    #return newNode
-                if float(p) == float(current_node.priority) and float(p) > float(current_node.next.priority):
+                    current_node = newNode                
+                    
+                elif float(p) == float(current_node.priority) and float(p) > float(current_node.next.priority):
                     newNode.next = current_node.next
                     current_node.next = newNode
+                else:
+                    current_node.next = newNode                
+            '''
             return root
                 
         self.root = __enqueue(self.root,d,p)
         self.count+=1
     def dequeue(self):
+        
         temp = self.root
         #if self.root.next == None:
             
@@ -62,8 +69,10 @@ class PriorityQueue:
         self.root = self.root.next
         
         self.count -=1
-        return temp
+        return temp.data
     def front(self):
+        if isinstance(self.root.data, list) or isinstance(self.root.data, tuple) or isinstance(self.root.data,int) or isinstance(self.root.data,bool):
+            return self.root.data
         return str(self.root)
     def __repr__(self):
         return repr(list(self))
@@ -77,16 +86,15 @@ class PriorityQueue:
 def main():
     p = PriorityQueue()
     
-    p.enqueue("a",5)
-    p.enqueue("c",7 )
-    p.enqueue("b", 8)
-    p.enqueue("d",5)
-    p.enqueue("e", 9)
-    p.enqueue("f", 3)
-    p.enqueue("j", 10)
-    print(p)
-    while p:
-        p.dequeue()
-        print(p)
+    p.enqueue('a',5)
+    p.enqueue('g',10)
+    p.enqueue('c',15)
+    p.enqueue('t',6)
+    p.enqueue(list(),100)
+    
+    print(p.front(),"This")
+    #while p:
+        #p.dequeue()
+        #print(p)
 if __name__ == "__main__":
     main()

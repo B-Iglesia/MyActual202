@@ -24,14 +24,18 @@ class Node:
 #and will return the huffman coding tree for X
 '''=== Higher frequency characters have lower priority==='''
 def huffman(X):
-    X.lower()
+    
     Q = PriorityQueue()
     
     f = freq(X) #This is a dictionary
     for c in f:
+      
         T = Node(f[c],c,None,None)
+        
         Q.enqueue(T, 100-(ord(c)*f[c]))
-   
+       
+        
+    
     while len(Q) > 1:
     
         T1 = Q.dequeue()
@@ -69,7 +73,23 @@ def code_generator(n,li):
     if n+1 == len(li):
         code = code[:len(li)-1]
     return code
-def get_huffman_code(ch, root):
+def get_huffman_code(ch,root):
+    n = tree_traverse(root)
+    chars = []
+    for i in range(len(n)-1):
+        chars.append(n[i].data.char)    
+    m = sorted(chars)
+    codes = []
+    for i in range(len(n)):
+        codes.append(code_generator(i,n))
+    idx = 0
+    for i in chars:
+        if i == ch:
+            break
+        idx +=1
+    return codes[idx]
+
+def get_huffman_codes(ch, root):
     n = tree_traverse(root)
     codes = []
     for i in range(len(n)):
@@ -78,7 +98,6 @@ def get_huffman_code(ch, root):
     chars = []
     for i in range(len(n)-1):
         chars.append(n[i].data.char)
-   
     chars.append(n[len(n)-1].char)
     
     for i in range(0,len(n)):
@@ -101,10 +120,18 @@ def freq(c):
     
 
 def main():
-    sent = "aaaaajjjjjdddkkllllllff"
-    a = huffman("aaaaajjjjjdddkkllllllff")
+    #sent = "aaaaajjjjjdddkkllllllff"
+    #a = huffman("aaaaajjjjjdddkkllllllff")
+    sent = "aaaaggccttt"
+    a = huffman(sent)
+    #print(a.right.data.right.data.left)
+    print(tree_traverse(a))
+    #print(get_huffman_code(sent,a))
     
-    print(get_huffman_code(sent,a))
+    print(get_huffman_codes(sent,a))
+    sent = "jalalabad"
+    print(get_huffman_codes(sent,huffman(sent)))
+    print(tree_traverse(huffman(sent)))
     #print()
     #print()
     #print(a)
