@@ -106,7 +106,7 @@ class Asg4(unittest.TestCase):
          codes[ch] = get_huffman_code(ch, root)  
             
       self.assertDictEqual(codes, {'a': '0', 'g': '111', 'c': '110', 't': '10'})
-        
+     
    def test_huffman_2(self):
       sent = 'asdf;k;lkjasdfk dasiirFFDg'; codes = dict(); root = huffman(sent)
       for ch in sent:
@@ -117,7 +117,7 @@ class Asg4(unittest.TestCase):
                               ';': '1101', 'k': '011', 'l': '11100', 'j': \
                               '11111', ' ': '11000', 'i': '000', 'r': '11101',\
                               'F': '1010', 'D': '11001', 'g': '11110'})
-        
+       
    def test_huffman_3(self):
       sent = 'asdf;k;lkjasdfk'; codes = dict(); root = huffman(sent)
       for ch in sent:
@@ -135,7 +135,7 @@ class Asg4(unittest.TestCase):
       self.assertDictEqual(codes, {'t': '01', 'e': '10110', 's': '111', \
         'i': '110', 'n': '100', 'g': '001', ' ': '000', 'h': '10111', \
             'r': '1010'} )
-                             
+                           
    def test_huffman_5(self):
       sent = 'StringTeessttt'; codes = dict(); root = huffman(sent)
       for ch in sent:
@@ -144,6 +144,7 @@ class Asg4(unittest.TestCase):
       self.assertDictEqual(codes, {'S': '0100', 't': '11', 'r': \
         '1001', 'i': '1011', 'n': '1000', 'g': '1010', 'T': '0101', \
             'e': '011', 's': '00'})
+   
 if __name__ == '__main__':  
    unittest.main()
       

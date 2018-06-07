@@ -1,5 +1,5 @@
 from priorityqueue import *
-
+from stack import *
 '''
 Just the steps interpreted from the code doc
 1. Huffman takes a string called X with length N and D distinct characters
@@ -23,13 +23,27 @@ class Node:
     def __iter__(self):
         if self.left != None:
             for elem in self.left:
-                yield elem
-        
+                yield elem          
         yield self.char
-        
         if self.right != None:
             for elem in self.right:
-                yield elem    
+                yield elem           
+    def isLeaf(self):
+        if self.left == None and self.right == None:
+            return True
+        return False
+    def twochildren(self):
+        if self.left and self.right:
+            return True
+        return False
+    def leftonly(self):
+        if self.left and not self.right:
+            return True
+        return False
+    def rightonly(self):
+        if self.right and not self.left:
+            return True
+        return False
 #this will take a string X of length n with d distinct characters
 #and will return the huffman coding tree for X
 '''=== Higher frequency characters have lower priority==='''
@@ -39,22 +53,23 @@ def huffman(X):
     
     f = freq(X) #This is a dictionary
     c_sorted = sorted(f.items(), key=lambda x:ord(x[0]),reverse = True)
-    print(c_sorted)
+    
     for c in c_sorted:
         T = Node(c[1],c[0],None,None)
         Q.enqueue(T, 100-c[1])
     
     
     while len(Q) > 1:
-    
+        
         T1 = Q.dequeue()
-       
+        print(T1,'T1')
         T2 = Q.dequeue()
-        
-        T = Node(T1.freq + T2.freq, str(T1.freq + T2.freq), T2, T1)
-        
-        Q.enqueue(T, 100-(T1.freq + T2.freq))
-    
+        print(T2,'T2')
+        T = Node(T1.freq + T2.freq, str(T1.freq + T2.freq), T1, T2)
+        pri = T1.freq + T2.freq
+        print(T,'T')
+        Q.enqueue(T, 100-(pri))
+        print(Q)
     T = Q.dequeue()
     
     return T
@@ -73,45 +88,66 @@ def freq(c):
 the code numbers in a list
 '''
 
-def code_generator(n,li):
-    code = ""
-    if n > 0:
-        code = code + '1'*n
-    code = code + '0'
-    if n+1 == len(li):
-        code = code[:len(li)-1]
-    return code
-def get_huffman_code(ch,root):
-    n = [i for i in root]
-    chars = []
-    for i in range(len(n)-1):
-        chars.append(n[i].char)    
-    m = sorted(chars)
-    codes = []
-    for i in range(len(n)):
-        codes.append(code_generator(i,n))
-    idx = 0
-    for i in chars:
-        if i == ch:
+
+def preorder(tree):
+    root = tree
+    b = []
+    c = []
+    a = []
+    if not root:
+        return
+    if root.isLeaf():
+        a = [root.char]
+    if root.left:
+        b = preorder(root.left)
+    if root.right:
+        c = preorder(root.right)
+    return a + b + c
+def findChar(ch,root):
+    nodeS = Stack()
+    moves = Stack()
+    visited = []
+    code = []
+    nodeS.push(root)
+    current_node = nodeS.top()
+    while nodeS:
+        if current_node.left and current_node.left not in visited:
+            nodeS.push(current_node.left)
+            visited.append(current_node.left)
+            moves.push('L')
+            current_node = nodeS.top()
+        else:
+            if current_node.right and current_node.right not in visited:
+                nodeS.push(current_node.right)
+                visited.append(current_node.right)
+                moves.push('R')
+                current_node = nodeS.top()
+            if current_node.right in visited:
+                moves.pop()
+                nodeS.pop()
+                current_node = nodeS.top()
+        if current_node.isLeaf() and current_node.char != ch:
+            moves.pop()
+            nodeS.pop()
+            current_node = nodeS.top()
+        if current_node.isLeaf() and current_node.char == ch:
+            while not moves.isEmpty():
+                code.append(moves.pop())
             break
-        idx +=1
-    return codes[idx]
-
-def get_huffman_codes(ch, root):
-    n = tree_traverse(root)
-    codes = []
-    for i in range(len(n)):
-        codes.append(code_generator(i,n))
-    dict = {}
-    chars = []
-    for i in range(len(n)-1):
-        chars.append(n[i].char)
-    chars.append(n[len(n)-1].char)
     
-    for i in range(0,len(n)):
-        dict[chars[i]] = codes[i]
-    return dict
-
+    return code[::-1]
+def code_helper(code):
+    cd = ''
+    for i in code:
+        if i == 'L':
+            cd = cd + '0'
+        else:
+            cd = cd + '1'
+    return cd
+        
+def get_huffman_code(ch,root):
+    b = findChar(ch,root)
+    return code_helper(b)
 #Helper function for Huffman that will count the frequency of characters 
 #i.e apple, p shows up twice, break ties for characters that have the same frequency by checking ASCII codes
 
@@ -121,19 +157,16 @@ def get_huffman_codes(ch, root):
 def main():
     #sent = "aaaaajjjjjdddkkllllllff"
     #a = huffman("aaaaajjjjjdddkkllllllff")
-    sent = "aaaaggccttt"
-    a = huffman(sent)
-    for i in a:
-        print(i)
-    #print(a.left.right)
-    #print(tree_traverse(a))
-    #print(get_huffman_code(sent,a))
-    sent = 'asdf;k;lkjasdfk dasiirFFDg'
+    sent = "asdf;k;lkjasdfk"
     a = huffman(sent)
     #for i in a:
     #    print(i)
-    #print(tree_traverse(a))
-    #print(get_huffman_codes(sent,a))
+    #print(a.left.right)
+    #print(preorder(a))
+    #print(findChar('c', a))
+    #print(code_helper(['L','L','L']))
+    print(get_huffman_code('s', a))
+    
     
     
 if __name__ == '__main__':
