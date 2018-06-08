@@ -62,14 +62,13 @@ def huffman(X):
     while len(Q) > 1:
         
         T1 = Q.dequeue()
-        print(T1,'T1')
+        
         T2 = Q.dequeue()
-        print(T2,'T2')
+        
         T = Node(T1.freq + T2.freq, str(T1.freq + T2.freq), T1, T2)
         pri = T1.freq + T2.freq
-        print(T,'T')
+        
         Q.enqueue(T, 100-(pri))
-        print(Q)
     T = Q.dequeue()
     
     return T
@@ -148,6 +147,8 @@ def code_helper(code):
 def get_huffman_code(ch,root):
     b = findChar(ch,root)
     return code_helper(b)
+
+
 #Helper function for Huffman that will count the frequency of characters 
 #i.e apple, p shows up twice, break ties for characters that have the same frequency by checking ASCII codes
 
@@ -155,18 +156,7 @@ def get_huffman_code(ch,root):
     
 
 def main():
-    #sent = "aaaaajjjjjdddkkllllllff"
-    #a = huffman("aaaaajjjjjdddkkllllllff")
-    sent = "asdf;k;lkjasdfk"
-    a = huffman(sent)
-    #for i in a:
-    #    print(i)
-    #print(a.left.right)
-    #print(preorder(a))
-    #print(findChar('c', a))
-    #print(code_helper(['L','L','L']))
-    print(get_huffman_code('s', a))
-    
+    pass
     
     
 if __name__ == '__main__':

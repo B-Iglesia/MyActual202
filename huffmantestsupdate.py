@@ -99,7 +99,24 @@ class Asg4(unittest.TestCase):
       self.assertEqual(pq.front(), 'b')
       pq.enqueue('D', 4)
       self.assertEqual(pq.front(), 'b')         
-         
+     
+   def test_code_helper1(self):
+      self.assertEqual(code_helper(['L','L','L']), '000')
+   def test_code_helper2(self):
+      self.assertEqual(code_helper(['L','R','L']), '010')
+   def test_code_helper3(self):
+      self.assertEqual(code_helper(['L','R','L','R','L']), '01010')
+   def test_code_helper4(self):
+      self.assertEqual(code_helper(['L','L','L','L','L','R']), '000001')
+   def test_code_helper5(self):
+      self.assertEqual(code_helper(['R','R','R','R','R','R','R']), '1111111')
+   def test_code_helper6(self):
+      self.assertEqual(code_helper(['R','R','R','R','R','R','L']), '1111110')
+   def test_code_helper7(self):
+      self.assertEqual(code_helper(['R','R','R','R','R','L','R']), '1111101')
+   def test_code_helper8(self):
+      self.assertEqual(code_helper(['R','R','R','R','L','R','R']), '1111011')      
+      
    def test_huffman_1(self):
       sent = 'aaaaggccttt'; codes = dict(); root = huffman(sent)
       for ch in sent:
@@ -144,7 +161,19 @@ class Asg4(unittest.TestCase):
       self.assertDictEqual(codes, {'S': '0100', 't': '11', 'r': \
         '1001', 'i': '1011', 'n': '1000', 'g': '1010', 'T': '0101', \
             'e': '011', 's': '00'})
-   
+   def test_huffman_6(self):
+      sent = 'test'; codes = dict(); root = huffman(sent)
+      for ch in sent:
+         codes[ch] = get_huffman_code(ch, root)
+       
+      self.assertDictEqual(codes, {'t': '1', 's': '01', 'e': '00'})
+      
+   def test_huffman_7(self):
+      sent = 'juullkdeoo'; codes = dict(); root = huffman(sent)
+      for ch in sent:
+         codes[ch] = get_huffman_code(ch, root)
+       
+      self.assertDictEqual(codes, {'d': '010', 'e':'011','j':'000','k':'001','l':'110','o':'111','u':'10'})      
 if __name__ == '__main__':  
    unittest.main()
       
